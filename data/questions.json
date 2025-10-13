@@ -3,20 +3,74 @@
   "multiple_choice": [
     {
       "id": "q1",
-      "question": "Which HTTP method is idempotent and commonly used for fetching data?",
-      "choices": ["POST", "GET", "PATCH", "CONNECT"],
-      "answer_index": 1
-    },
-    {
-      "id": "q2",
-      "question": "In Python, what does the built-in function len() return for a dict?",
-      "choices": ["The number of keys", "The number of values", "The number of key-value pairs", "The memory size"],
+      "question": "Which cloud computing service model provides virtualized computing resources over the internet?",
+      "choices": ["SaaS", "PaaS", "IaaS", "FaaS"],
       "answer_index": 2
     },
     {
+      "id": "q2",
+      "question": "What does AWS S3 primarily provide?",
+      "choices": ["Virtual machines", "Object storage", "Database hosting", "Load balancing"],
+      "answer_index": 1
+    },
+    {
       "id": "q3",
-      "question": "Which data structure in Python preserves insertion order as of version 3.7+?",
-      "choices": ["set", "dict", "tuple", "frozenset"],
+      "question": "In RAG (Retrieval-Augmented Generation), what is the primary purpose of the retrieval component?",
+      "choices": ["Generate new text", "Store embeddings", "Fetch relevant context", "Train the model"],
+      "answer_index": 2
+    },
+    {
+      "id": "q4",
+      "question": "Which vector database is commonly used for storing embeddings in RAG systems?",
+      "choices": ["MySQL", "PostgreSQL", "Pinecone", "Redis"],
+      "answer_index": 2
+    },
+    {
+      "id": "q5",
+      "question": "What does NLP stand for?",
+      "choices": ["Natural Language Processing", "Neural Learning Protocol", "Network Layer Protocol", "Numerical Linear Programming"],
+      "answer_index": 0
+    },
+    {
+      "id": "q6",
+      "question": "Which technique is commonly used for text preprocessing in NLP?",
+      "choices": ["Normalization", "Tokenization", "Lemmatization", "All of the above"],
+      "answer_index": 3
+    },
+    {
+      "id": "q7",
+      "question": "What type of AI system can learn and improve from experience without being explicitly programmed?",
+      "choices": ["Expert systems", "Machine learning", "Rule-based systems", "Knowledge graphs"],
+      "answer_index": 1
+    },
+    {
+      "id": "q8",
+      "question": "Which AI technique is primarily used for image recognition tasks?",
+      "choices": ["Decision trees", "Linear regression", "Convolutional Neural Networks", "K-means clustering"],
+      "answer_index": 2
+    },
+    {
+      "id": "q9",
+      "question": "What is the main difference between supervised and unsupervised learning?",
+      "choices": ["Supervised uses labeled data", "Unsupervised is faster", "Supervised is more accurate", "No significant difference"],
+      "answer_index": 0
+    },
+    {
+      "id": "q10",
+      "question": "Which algorithm is commonly used for classification problems in machine learning?",
+      "choices": ["K-means", "Random Forest", "PCA", "DBSCAN"],
+      "answer_index": 1
+    },
+    {
+      "id": "q11",
+      "question": "Which HTTP status code indicates a successful API request?",
+      "choices": ["404", "500", "200", "401"],
+      "answer_index": 2
+    },
+    {
+      "id": "q12",
+      "question": "What is the purpose of middleware in backend API development?",
+      "choices": ["Store data", "Process requests between client and server", "Generate HTML", "Manage databases"],
       "answer_index": 1
     }
   ],
@@ -25,7 +79,7 @@
     "language": "python",
     "function_name": "group_keys_by_frequency",
     "title": "Group keys by frequency k",
-    "prompt": "Given a dictionary where keys are alphabets and values are integers, and a value k, write a Python function that works for any such dictionary of arbitrary length 0 < n < 1000 and returns all groups of keys whose value occurs exactly k times. Return a list of key-lists where each inner list contains the keys that share the same value; sort keys within each inner list and sort the outer list by the first key in each group for determinism. Example: input_dict = {\"a\":8, \"b\":5, \"c\":8, \"d\":4, \"e\":7, \"f\":7, \"g\":1, \"h\":9, \"j\":3}. For k=3 => [], for k=2 => [[\"a\", \"c\"], [\"e\", \"f\"]], for k=1 => [[\"b\"], [\"d\"], [\"g\"], [\"h\"], [\"j\"]].",
+    "prompt": "Given a dictionary where keys are alphabets and values are integers, and a value k, write a dynamic Python function that works for any such dictionary of arbitrary length 0 < n < 1000 and returns the expected output based on the value of k.\n\ninput_dict = {\"a\":8, \"b\":5, \"c\":8, \"d\":4, \"e\":7, \"f\":7, \"g\":1, \"h\":9, \"j\":3}\nk=2\n#output for k=3 []\n#output for k=2 [['a', 'c'], ['e', 'f']]\n#output for k=1 [['b'], ['d'], ['g'], ['h'], ['j']]",
     "function_signature": "def group_keys_by_frequency(input_dict, k):\n    # Write your code here\n    pass\n",
     "reference_tests": [
       {

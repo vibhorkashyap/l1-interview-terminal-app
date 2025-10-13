@@ -37,9 +37,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Serve static frontend
-app.mount("/", StaticFiles(directory=str(FRONTEND_DIR), html=True), name="frontend")
-
 # In-memory state (dev only)
 STATE: Dict[str, Any] = {
     "sessions": {}
@@ -124,3 +121,7 @@ async def submit(payload: SubmitRequest) -> SubmitResponse:
         )
 
     return SubmitResponse(score_mcq=correct, total_mcq=total_mcq, coding_result=coding_result)
+
+
+# Serve static frontend - IMPORTANT: This must come AFTER API routes
+app.mount("/", StaticFiles(directory=str(FRONTEND_DIR), html=True), name="frontend")
