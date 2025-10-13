@@ -1,0 +1,53 @@
+{
+  "duration_minutes": 45,
+  "multiple_choice": [
+    {
+      "id": "q1",
+      "question": "Which HTTP method is idempotent and commonly used for fetching data?",
+      "choices": ["POST", "GET", "PATCH", "CONNECT"],
+      "answer_index": 1
+    },
+    {
+      "id": "q2",
+      "question": "In Python, what does the built-in function len() return for a dict?",
+      "choices": ["The number of keys", "The number of values", "The number of key-value pairs", "The memory size"],
+      "answer_index": 2
+    },
+    {
+      "id": "q3",
+      "question": "Which data structure in Python preserves insertion order as of version 3.7+?",
+      "choices": ["set", "dict", "tuple", "frozenset"],
+      "answer_index": 1
+    }
+  ],
+  "coding": {
+    "id": "code1",
+    "language": "python",
+    "function_name": "group_keys_by_frequency",
+    "title": "Group keys by frequency k",
+    "prompt": "Given a dictionary where keys are alphabets and values are integers, and a value k, write a Python function that works for any such dictionary of arbitrary length 0 < n < 1000 and returns all groups of keys whose value occurs exactly k times. Return a list of key-lists where each inner list contains the keys that share the same value; sort keys within each inner list and sort the outer list by the first key in each group for determinism. Example: input_dict = {\"a\":8, \"b\":5, \"c\":8, \"d\":4, \"e\":7, \"f\":7, \"g\":1, \"h\":9, \"j\":3}. For k=3 => [], for k=2 => [[\"a\", \"c\"], [\"e\", \"f\"]], for k=1 => [[\"b\"], [\"d\"], [\"g\"], [\"h\"], [\"j\"]].",
+    "function_signature": "def group_keys_by_frequency(input_dict, k):\n    # Write your code here\n    pass\n",
+    "reference_tests": [
+      {
+        "input_dict": {"a":8, "b":5, "c":8, "d":4, "e":7, "f":7, "g":1, "h":9, "j":3},
+        "k": 3,
+        "expected": []
+      },
+      {
+        "input_dict": {"a":8, "b":5, "c":8, "d":4, "e":7, "f":7, "g":1, "h":9, "j":3},
+        "k": 2,
+        "expected": [["a", "c"], ["e", "f"]]
+      },
+      {
+        "input_dict": {"a":8, "b":5, "c":8, "d":4, "e":7, "f":7, "g":1, "h":9, "j":3},
+        "k": 1,
+        "expected": [["b"], ["d"], ["g"], ["h"], ["j"]]
+      },
+      {
+        "input_dict": {"x":2, "y":2, "z":2, "w":3},
+        "k": 3,
+        "expected": [["x", "y", "z"]]
+      }
+    ]
+  }
+}

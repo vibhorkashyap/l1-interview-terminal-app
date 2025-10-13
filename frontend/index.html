@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>L1 Interview Terminal</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="terminal-window">
+      <div class="term-header">
+        <div class="traffic">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+        </div>
+        <div class="title">L1 Interview Terminal</div>
+        <div class="timer" id="timer">--:--</div>
+      </div>
+      <div class="term-body">
+        <aside class="sidebar">
+          <div class="section-title">Progress</div>
+          <ul id="progress"></ul>
+        </aside>
+        <main class="content">
+          <section id="screen-start" class="screen visible">
+            <h1>Welcome</h1>
+            <label>Enter your name</label>
+            <input id="nameInput" type="text" placeholder="Your name" />
+            <button id="startBtn">Begin Test</button>
+          </section>
+
+          <section id="screen-quiz" class="screen">
+            <div id="questionText" class="question"></div>
+            <div id="choices" class="choices"></div>
+            <div class="actions">
+              <button id="nextBtn">Next</button>
+            </div>
+          </section>
+
+          <section id="screen-code" class="screen">
+            <h2 id="codeTitle">Coding Round</h2>
+            <pre id="prompt" class="prompt"></pre>
+            <textarea id="codeEditor" spellcheck="false"></textarea>
+            <div class="actions">
+              <button id="submitAllBtn">Submit</button>
+            </div>
+          </section>
+
+          <section id="screen-result" class="screen">
+            <h2>Results</h2>
+            <pre id="resultText"></pre>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>
