@@ -1,4 +1,4 @@
-/* macOS terminal inspired theme */
+/* macOS terminal inspired theme with enhanced visual effects */
 :root {
   --bg: #0e0f10;
   --panel: #121314;
@@ -9,6 +9,16 @@
   --warn: #ffbd2e;
   --ok: #27c93f;
   --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --ubuntu-mono: "Ubuntu Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  
+  /* VS Code Dark Theme Colors */
+  --vscode-bg: #1e1e1e;
+  --vscode-text: #d4d4d4;
+  --vscode-comment: #6a9955;
+  --vscode-keyword: #569cd6;
+  --vscode-string: #ce9178;
+  --vscode-number: #b5cea8;
+  --vscode-function: #dcdcaa;
 }
 
 * { box-sizing: border-box; }
@@ -18,6 +28,121 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--mono);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Terminal scan lines effect */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* Screen flicker animation */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(18, 16, 16, 0.02);
+  opacity: 0;
+  animation: flicker 0.15s infinite linear alternate;
+  pointer-events: none;
+  z-index: 999;
+}
+
+@keyframes flicker {
+  0% { opacity: 1; }
+  100% { opacity: 0.95; }
+}
+
+/* Additional terminal glow effect */
+.terminal-window::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--accent), transparent, var(--accent));
+  border-radius: 12px;
+  z-index: -1;
+  opacity: 0.1;
+  animation: terminal-glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes terminal-glow {
+  from { opacity: 0.1; }
+  to { opacity: 0.2; }
+}
+
+/* Typewriter effect for questions */
+.question {
+  animation: type-in 0.8s ease-out;
+}
+
+@keyframes type-in {
+  from { 
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Enhanced hover effects for choices */
+.choice::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(25, 249, 216, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.choice:hover::before {
+  left: 100%;
+}
+
+/* Block cursor simulation for code editor */
+textarea#codeEditor {
+  position: relative;
+}
+
+/* Enhanced code editor with VS Code-like styling */
+textarea#codeEditor:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(25, 249, 216, 0.2);
+}
+
+/* Add line numbers effect (visual only) */
+.coding-container {
+  position: relative;
+}
+
+/* Enhance the prompt display */
+.prompt {
+  border-left: 4px solid var(--accent);
+  margin-bottom: 16px;
 }
 
 .terminal-window {
@@ -28,6 +153,8 @@ body {
   overflow: hidden;
   background: var(--panel);
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  position: relative;
+  z-index: 1;
 }
 
 .term-header {
@@ -76,18 +203,460 @@ input[type="text"] {
 }
 button {
   margin-top: 12px; background: #0f1112; color: var(--accent); border: 1px solid var(--accent);
-  border-radius: 4px; padding: 10px 14px; cursor: pointer;
+  border-radius: 4px; padding: 10px 14px; cursor: pointer; font-family: var(--ubuntu-mono);
+  transition: all 0.2s ease;
 }
 button:hover { background: rgba(25, 249, 216, 0.08); }
 
-.question { font-size: 18px; margin-bottom: 12px; }
-.choices { display: grid; gap: 8px; }
-.choice {
-  padding: 10px 12px; border: 1px solid #2a2d30; border-radius: 4px; cursor: pointer; background: #0f1112;
+/* Action buttons container */
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
 }
-.choice.selected { border-color: var(--accent); color: var(--accent); }
+
+/* Run button styling */
+.run-btn {
+  background: linear-gradient(135deg, #27c93f, #20a836);
+  color: #0e0f10;
+  border: none;
+  font-weight: 600;
+}
+
+.run-btn:hover {
+  background: linear-gradient(135deg, #20a836, #1a8f2e);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(39, 201, 63, 0.3);
+}
+
+/* Test output styling */
+.test-output {
+  margin: 16px 0;
+  padding: 16px;
+  background: var(--vscode-bg);
+  border: 1px solid #464647;
+  border-radius: 6px;
+}
+
+.test-output h4 {
+  margin: 0 0 12px 0;
+  color: var(--accent);
+  font-family: var(--ubuntu-mono);
+}
+
+.test-result {
+  background: #0b0c0d;
+  color: var(--vscode-text);
+  padding: 12px;
+  border-radius: 4px;
+  font-family: var(--ubuntu-mono);
+  font-size: 13px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.test-result.success {
+  border-left: 4px solid var(--ok);
+}
+
+.test-result.partial {
+  border-left: 4px solid var(--warn);
+}
+
+.test-result.error {
+  border-left: 4px solid var(--danger);
+  color: var(--danger);
+}
+
+.question { 
+  font-size: 18px; 
+  margin-bottom: 24px; 
+  font-family: var(--ubuntu-mono);
+  line-height: 1.6;
+  color: var(--text);
+}
+.choices { 
+  display: grid; 
+  gap: 8px; 
+  margin-top: 20px;
+}
+.choice {
+  padding: 12px 16px; 
+  border: 1px solid #2a2d30; 
+  border-radius: 4px; 
+  cursor: pointer; 
+  background: #0f1112;
+  font-family: var(--ubuntu-mono);
+  font-size: 14px;
+  line-height: 1.4;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+.choice:hover {
+  background: #151617;
+  border-color: #3a3d40;
+}
+.choice.selected { 
+  border-color: var(--accent); 
+  color: var(--accent);
+  background: rgba(25, 249, 216, 0.08);
+}
 
 textarea#codeEditor {
-  width: 100%; height: 300px; background: #0b0c0d; color: #c0f5e9; border: 1px solid #2a2d30; border-radius: 6px; padding: 12px; font-family: var(--mono);
+  width: 100%; 
+  height: 300px; 
+  background: var(--vscode-bg); 
+  color: var(--vscode-text); 
+  border: 1px solid #464647; 
+  border-radius: 6px; 
+  padding: 16px; 
+  font-family: var(--ubuntu-mono);
+  font-size: 14px;
+  line-height: 1.5;
+  resize: vertical;
+  outline: none;
+  caret-color: var(--vscode-text);
 }
-.pre, .prompt { background: #0b0c0d; border: 1px solid #2a2d30; border-radius: 6px; padding: 12px; white-space: pre-wrap; }
+
+
+/* Enhanced syntax highlighting simulation for code editor */
+textarea#codeEditor::placeholder {
+  color: var(--vscode-comment);
+  font-style: italic;
+}
+.pre, .prompt { 
+  background: var(--vscode-bg); 
+  border: 1px solid #464647; 
+  border-radius: 6px; 
+  padding: 16px; 
+  white-space: pre-wrap; 
+  font-family: var(--ubuntu-mono);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--vscode-text);
+}
+
+/* Enhanced Results Styling - moved to end of file */
+
+.topic-breakdown {
+  margin-bottom: 20px;
+}
+
+.topic-section {
+  background: #0b0c0d;
+  border: 1px solid #2a2d30;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.topic-section h5 {
+  background: #181a1c;
+  margin: 0;
+  padding: 12px 16px;
+  color: var(--muted);
+  border-bottom: 1px solid #2a2d30;
+}
+
+.questions-detail {
+  padding: 12px;
+}
+
+.question-result {
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  border-left: 4px solid;
+}
+
+.question-result.correct {
+  background: rgba(39, 201, 63, 0.1);
+  border-left-color: var(--ok);
+}
+
+.question-result.incorrect {
+  background: rgba(255, 95, 86, 0.1);
+  border-left-color: var(--danger);
+}
+
+.question-result p {
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+.coding-results {
+  background: #0b0c0d;
+  border: 1px solid #2a2d30;
+  border-radius: 6px;
+  padding: 16px;
+}
+
+.test-cases {
+  margin-top: 12px;
+}
+
+.test-case {
+  background: #0f1112;
+  border: 1px solid #2a2d30;
+  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-left: 4px solid;
+}
+
+.test-case.passed {
+  border-left-color: var(--ok);
+}
+
+.test-case.failed {
+  border-left-color: var(--danger);
+}
+
+.test-case p {
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+.test-case .error {
+  color: var(--danger);
+  font-style: italic;
+}
+
+/* Download Results Button */
+.download-section {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.result-summary {
+  background: #0f1112;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  padding: 32px;
+  margin: 24px auto;
+  max-width: 500px;
+  text-align: center;
+}
+
+.result-summary h3 {
+  color: var(--accent);
+  margin: 0 0 16px 0;
+  font-size: 24px;
+}
+
+.result-summary p {
+  color: var(--muted);
+  margin: 16px 0;
+  font-family: var(--ubuntu-mono);
+}
+
+.download-btn {
+  background: linear-gradient(135deg, var(--accent), #15d4b8);
+  color: #0e0f10;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-family: var(--ubuntu-mono);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(25, 249, 216, 0.3);
+  text-transform: none;
+  letter-spacing: 0.5px;
+}
+
+.download-btn:hover {
+  background: linear-gradient(135deg, #15d4b8, var(--accent));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(25, 249, 216, 0.4);
+}
+
+.download-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 15px rgba(25, 249, 216, 0.3);
+}
+
+/* Download button animation */
+@keyframes download-pulse {
+  0% {
+    box-shadow: 0 4px 15px rgba(25, 249, 216, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 15px rgba(25, 249, 216, 0.6);
+  }
+  100% {
+    box-shadow: 0 4px 15px rgba(25, 249, 216, 0.3);
+  }
+}
+
+.download-btn:focus {
+  outline: none;
+  animation: download-pulse 1.5s infinite;
+}
+
+/* Secondary download button */
+.download-btn.secondary {
+  background: linear-gradient(135deg, #2a2d30, #1a1c1e);
+  color: var(--text);
+  border: 1px solid var(--muted);
+}
+
+.download-btn.secondary:hover {
+  background: linear-gradient(135deg, #3a3d40, #2a2d30);
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(127, 176, 105, 0.3);
+}
+
+.download-btn.secondary:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 15px rgba(127, 176, 105, 0.2);
+}
+
+/* CodeMirror integration */
+.CodeMirror {
+  background: var(--vscode-bg);
+  color: var(--vscode-text);
+  font-family: var(--ubuntu-mono);
+  font-size: 14px;
+  line-height: 1.5;
+  height: 300px;          /* same as old textarea */
+  border: 1px solid #464647;
+  border-radius: 6px;
+}
+
+/* Use thick block cursor */
+.CodeMirror-cursor {
+  width: 0.6em !important;
+  border-left: none !important;
+  background: var(--vscode-text);
+  opacity: 0.75;
+}
+.cm-s-material-darker.CodeMirror {
+  background: var(--vscode-bg);
+}
+
+/* Match selection + gutter colors */
+.CodeMirror-gutters {
+  background: var(--vscode-bg);
+  border-right: 1px solid #464647;
+}
+.CodeMirror-selected {
+  background: rgba(25, 249, 216, 0.2);
+}
+
+/* Split-pane coding layout */
+.coding-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  height: calc(70vh - 80px); /* Account for actions bar */
+  margin-bottom: 16px;
+}
+
+.coding-question-pane {
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  border: 1px solid #2a2d30;
+  border-radius: 6px;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.coding-question-pane h2 {
+  margin: 0 0 16px 0;
+  color: var(--accent);
+  font-size: 18px;
+  border-bottom: 1px solid #2a2d30;
+  padding-bottom: 8px;
+}
+
+.question-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.coding-question-pane .prompt {
+  margin: 0;
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.coding-question-pane .test-output {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #2a2d30;
+}
+
+.coding-editor-pane {
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  border: 1px solid #2a2d30;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.editor-header {
+  background: #181a1c;
+  padding: 8px 16px;
+  border-bottom: 1px solid #2a2d30;
+  font-family: var(--ubuntu-mono);
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.coding-editor-pane .CodeMirror {
+  flex: 1;
+  height: auto;
+  border: none;
+  border-radius: 0;
+}
+
+.coding-editor-pane textarea#codeEditor {
+  flex: 1;
+  border: none;
+  border-radius: 0;
+  height: auto;
+  min-height: 400px;
+}
+
+/* Actions bar for coding screen */
+#screen-code .actions {
+  display: flex;
+  gap: 12px;
+  padding: 16px 0 0 0;
+  border-top: 1px solid #2a2d30;
+  margin-top: 16px;
+}
+
+/* Responsive design - stack on smaller screens */
+@media (max-width: 1024px) {
+  .coding-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    height: auto;
+  }
+  
+  .coding-question-pane {
+    max-height: 300px;
+  }
+  
+  .coding-editor-pane textarea#codeEditor {
+    min-height: 300px;
+  }
+}

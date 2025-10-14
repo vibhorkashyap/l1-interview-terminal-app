@@ -1,79 +1,739 @@
 {
   "duration_minutes": 45,
-  "multiple_choice": [
-    {
-      "id": "q1",
-      "question": "Which cloud computing service model provides virtualized computing resources over the internet?",
-      "choices": ["SaaS", "PaaS", "IaaS", "FaaS"],
-      "answer_index": 2
-    },
-    {
-      "id": "q2",
-      "question": "What does AWS S3 primarily provide?",
-      "choices": ["Virtual machines", "Object storage", "Database hosting", "Load balancing"],
-      "answer_index": 1
-    },
-    {
-      "id": "q3",
-      "question": "In RAG (Retrieval-Augmented Generation), what is the primary purpose of the retrieval component?",
-      "choices": ["Generate new text", "Store embeddings", "Fetch relevant context", "Train the model"],
-      "answer_index": 2
-    },
-    {
-      "id": "q4",
-      "question": "Which vector database is commonly used for storing embeddings in RAG systems?",
-      "choices": ["MySQL", "PostgreSQL", "Pinecone", "Redis"],
-      "answer_index": 2
-    },
-    {
-      "id": "q5",
-      "question": "What does NLP stand for?",
-      "choices": ["Natural Language Processing", "Neural Learning Protocol", "Network Layer Protocol", "Numerical Linear Programming"],
-      "answer_index": 0
-    },
-    {
-      "id": "q6",
-      "question": "Which technique is commonly used for text preprocessing in NLP?",
-      "choices": ["Normalization", "Tokenization", "Lemmatization", "All of the above"],
-      "answer_index": 3
-    },
-    {
-      "id": "q7",
-      "question": "What type of AI system can learn and improve from experience without being explicitly programmed?",
-      "choices": ["Expert systems", "Machine learning", "Rule-based systems", "Knowledge graphs"],
-      "answer_index": 1
-    },
-    {
-      "id": "q8",
-      "question": "Which AI technique is primarily used for image recognition tasks?",
-      "choices": ["Decision trees", "Linear regression", "Convolutional Neural Networks", "K-means clustering"],
-      "answer_index": 2
-    },
-    {
-      "id": "q9",
-      "question": "What is the main difference between supervised and unsupervised learning?",
-      "choices": ["Supervised uses labeled data", "Unsupervised is faster", "Supervised is more accurate", "No significant difference"],
-      "answer_index": 0
-    },
-    {
-      "id": "q10",
-      "question": "Which algorithm is commonly used for classification problems in machine learning?",
-      "choices": ["K-means", "Random Forest", "PCA", "DBSCAN"],
-      "answer_index": 1
-    },
-    {
-      "id": "q11",
-      "question": "Which HTTP status code indicates a successful API request?",
-      "choices": ["404", "500", "200", "401"],
-      "answer_index": 2
-    },
-    {
-      "id": "q12",
-      "question": "What is the purpose of middleware in backend API development?",
-      "choices": ["Store data", "Process requests between client and server", "Generate HTML", "Manage databases"],
-      "answer_index": 1
-    }
-  ],
+  "question_pool": {
+    "cloud_computing": [
+      {
+        "id": "cloud_1",
+        "question": "When implementing a multi-region disaster recovery strategy for ML inference workloads on AWS, what combination of services would provide the most cost-effective solution with RPO < 1 hour?",
+        "choices": [
+          "Cross-region S3 replication with Lambda@Edge for model serving, using CloudFront as CDN, and Aurora Global Database for metadata with automatic failover capabilities",
+          "EKS clusters in multiple regions with Istio service mesh, using EFS for model storage, RDS read replicas, and Route 53 health checks for traffic routing",
+          "SageMaker multi-model endpoints with cross-region model registry, using DynamoDB global tables for metadata and API Gateway with custom domain routing",
+          "EC2 Auto Scaling groups behind Application Load Balancers in each region, with EBS cross-region snapshots and manual DNS failover using Route 53"
+        ],
+        "answer_index": 2,
+        "topic": "cloud_computing"
+      },
+      {
+        "id": "cloud_2",
+        "question": "For a real-time ML pipeline processing 100k events/second with strict latency requirements (<10ms p99), which GCP architecture would be most appropriate?",
+        "choices": [
+          "Cloud Run with Vertex AI Prediction endpoints, using Cloud SQL for feature store and Pub/Sub for event streaming with exactly-once delivery guarantees",
+          "GKE Autopilot with Knative serving, Bigtable for low-latency feature lookup, Dataflow for stream processing, and Memorystore Redis for caching",
+          "Compute Engine with preemptible instances, Cloud Storage for model artifacts, Cloud Functions for preprocessing, and BigQuery for analytics",
+          "App Engine flexible environment with Cloud Spanner for consistency, Cloud Tasks for job queuing, and Cloud Monitoring for observability"
+        ],
+        "answer_index": 1,
+        "topic": "cloud_computing"
+      },
+      {
+        "id": "cloud_3",
+        "question": "When designing a cost-optimized training infrastructure for large language models on Azure, which combination would minimize costs while maintaining training efficiency?",
+        "choices": [
+          "Azure Machine Learning compute clusters with low-priority VMs, using Azure NetApp Files for distributed storage and ExpressRoute for data transfer",
+          "Azure Batch with spot instances, Azure Blob Storage with hot/cool tiers, and VPN Gateway for secure connectivity to on-premises data sources",
+          "Azure Kubernetes Service with spot node pools, Azure Files Premium for shared storage, gradient compression, and Azure CDN for model distribution",
+          "Virtual Machine Scale Sets with mixed instance types, managed disks with zone-redundant storage, and Azure Load Balancer for traffic distribution"
+        ],
+        "answer_index": 0,
+        "topic": "cloud_computing"
+      },
+      {
+        "id": "cloud_4",
+        "question": "For implementing MLOps with continuous model deployment across multiple cloud providers, what architecture pattern would ensure vendor neutrality and operational efficiency?",
+        "choices": [
+          "Kubernetes-native solutions using Kubeflow Pipelines, Argo Workflows, and Seldon Core for serving, with Terraform for infrastructure as code",
+          "Cloud-native CI/CD using each provider's managed services (AWS CodePipeline, Azure DevOps, GCP Cloud Build) with custom integration layers",
+          "Docker Swarm clusters with Jenkins for automation, Harbor registry for container management, and Prometheus/Grafana for monitoring across clouds",
+          "Serverless functions for each cloud (Lambda, Azure Functions, Cloud Functions) with a centralized orchestration layer using Apache Airflow"
+        ],
+        "answer_index": 0,
+        "topic": "cloud_computing"
+      },
+      {
+        "id": "cloud_5",
+        "question": "When implementing zero-downtime model updates for a high-traffic ML service, which deployment strategy would minimize risk while ensuring rollback capabilities?",
+        "choices": [
+          "Blue-green deployment with health checks, traffic splitting using weighted routing, shadow testing for validation, and automated rollback triggers",
+          "Rolling updates with readiness probes, circuit breakers for fault tolerance, canary analysis with statistical significance testing, and feature flags",
+          "Immutable infrastructure deployment, A/B testing framework with multi-armed bandit allocation, real-time metrics monitoring, and instant rollback",
+          "Container orchestration with init containers, horizontal pod autoscaling, service mesh traffic management, and distributed tracing for observability"
+        ],
+        "answer_index": 1,
+        "topic": "cloud_computing"
+      },
+      {
+        "id": "cloud_6",
+        "question": "For a globally distributed AI application requiring edge inference with <5ms latency, what edge computing architecture would be most effective?",
+        "choices": [
+          "AWS Wavelength zones with EC2 instances, Local Zones for reduced latency, CloudFront edge locations for static content, and Direct Connect for connectivity",
+          "Azure IoT Edge with custom modules, Azure Stack Edge for on-premises processing, CDN endpoints for model distribution, and ExpressRoute for backhaul",
+          "Google Distributed Cloud Edge with Anthos clusters, Cloud CDN for content delivery, dedicated interconnect, and Vertex AI Edge for model optimization",
+          "Multi-CDN approach with edge computing capabilities from Cloudflare Workers, AWS Lambda@Edge, and Fastly Compute@Edge for geographic distribution"
+        ],
+        "answer_index": 3,
+        "topic": "cloud_computing"
+      },
+      {
+        "id": "cloud_7",
+        "question": "When implementing federated learning across multiple cloud regions with privacy constraints, what security and compliance approach would be most comprehensive?",
+        "choices": [
+          "Homomorphic encryption for computation on encrypted data, differential privacy for gradient updates, secure multi-party computation protocols, and zero-knowledge proofs",
+          "TLS encryption in transit, AES-256 encryption at rest, IAM roles with least privilege access, VPC peering for secure communication, and audit logging",
+          "Hardware security modules for key management, confidential computing with trusted execution environments, privacy-preserving aggregation, and formal verification",
+          "End-to-end encryption with client-side key management, VPN tunnels between regions, tokenization of sensitive data, and blockchain for audit trails"
+        ],
+        "answer_index": 2,
+        "topic": "cloud_computing"
+      },
+      {
+        "id": "cloud_8",
+        "question": "For optimizing the cost of training large transformer models while maintaining performance, which cloud resource optimization strategy would be most effective?",
+        "choices": [
+          "Gradient checkpointing with mixed precision training, model parallelism across multiple GPUs, reserved instance pricing, and automated scaling policies",
+          "Spot instance bidding strategies with fault tolerance, memory-efficient optimizers, dynamic batching, and preemptible VM orchestration with checkpointing",
+          "Data parallelism with synchronous SGD, gradient compression techniques, committed use discounts, and workload scheduling during off-peak hours",
+          "Pipeline parallelism with microbatching, ZeRO optimizer states partitioning, sustained use discounts, and intelligent workload migration across zones"
+        ],
+        "answer_index": 1,
+        "topic": "cloud_computing"
+      },
+      {
+        "id": "cloud_9",
+        "question": "When designing a real-time feature store for ML applications with microsecond latency requirements, what combination of technologies would be optimal?",
+        "choices": [
+          "Apache Kafka with Kafka Streams for processing, Redis Cluster for serving, Apache Spark for batch features, and Elasticsearch for feature discovery",
+          "Apache Pulsar for messaging, ScyllaDB for ultra-low latency serving, Apache Flink for stream processing, and Apache Atlas for metadata management",
+          "AWS Kinesis with Lambda for processing, DynamoDB with DAX for caching, EMR for batch computation, and AWS Glue for data catalog management",
+          "Google Pub/Sub with Dataflow, Bigtable with Memorystore caching, Dataproc for feature engineering, and Data Catalog for governance"
+        ],
+        "answer_index": 1,
+        "topic": "cloud_computing"
+      },
+      {
+        "id": "cloud_10",
+        "question": "For implementing chaos engineering in a production ML system to improve resilience, what approach would provide comprehensive fault injection and monitoring?",
+        "choices": [
+          "Chaos Monkey for random instance termination, Gremlin for network and resource attacks, Prometheus for metrics collection, and Grafana for visualization",
+          "Litmus for Kubernetes-native chaos experiments, Jaeger for distributed tracing, custom fault injection libraries, and PagerDuty for incident response",
+          "Netflix Simian Army suite for comprehensive testing, Hystrix for circuit breaker patterns, custom monitoring dashboards, and automated remediation",
+          "Chaos Toolkit with custom actions, OpenTelemetry for observability, game days for manual testing, and runbook automation for recovery procedures"
+        ],
+        "answer_index": 1,
+        "topic": "cloud_computing"
+      }
+    ],
+    "rag": [
+      {
+        "id": "rag_1",
+        "question": "When implementing a production RAG system with 100M+ documents, what vector database architecture would provide optimal retrieval performance with cost efficiency?",
+        "choices": [
+          "Pinecone with hierarchical navigable small worlds (HNSW) indexing, metadata filtering, and horizontal scaling across multiple pods with automated load balancing",
+          "Weaviate cluster with quantized vectors, multi-tenancy support, hybrid search combining dense and sparse retrieval, and GraphQL API for complex queries",
+          "Milvus distributed deployment with IVF-PQ indexing, memory mapping for large datasets, collection partitioning, and MinIO for object storage backend",
+          "Qdrant with payload indexing, quantization techniques for memory optimization, distributed consensus for high availability, and gRPC for high-performance queries"
+        ],
+        "answer_index": 2,
+        "topic": "rag"
+      },
+      {
+        "id": "rag_2",
+        "question": "For a multi-modal RAG system processing text, images, and audio, what embedding and retrieval strategy would provide the most coherent cross-modal understanding?",
+        "choices": [
+          "CLIP for vision-language embeddings, separate audio embeddings with cross-attention fusion, late fusion scoring, and modality-specific index optimization",
+          "Unified multimodal transformer with contrastive learning objectives, joint embedding space, early fusion with attention mechanisms, and single vector index",
+          "Separate encoders per modality with alignment training, hierarchical retrieval with modality routing, ensemble scoring, and modality-weighted ranking",
+          "Foundation model fine-tuning for each modality, cross-modal distillation, unified embedding projection, and approximate nearest neighbor search"
+        ],
+        "answer_index": 1,
+        "topic": "rag"
+      },
+      {
+        "id": "rag_3",
+        "question": "When dealing with rapidly changing knowledge bases in RAG systems, what incremental update strategy would maintain retrieval quality while minimizing computational overhead?",
+        "choices": [
+          "Streaming updates with immediate indexing, version-controlled embeddings, TTL-based cache invalidation, and delta synchronization across distributed nodes",
+          "Batch processing with periodic full reindexing, embedding comparison for change detection, blue-green index switching, and eventual consistency guarantees",
+          "Event-driven incremental updates, lazy loading of embeddings, copy-on-write index structures, and merkle tree-based change tracking for efficiency",
+          "Real-time embedding computation, write-ahead logging for durability, background compaction processes, and consistent hashing for data distribution"
+        ],
+        "answer_index": 2,
+        "topic": "rag"
+      },
+      {
+        "id": "rag_4",
+        "question": "For implementing retrieval-augmented code generation with semantic search across large codebases, what approach would provide the most accurate contextual retrieval?",
+        "choices": [
+          "Abstract syntax tree parsing with graph neural networks, function signature matching, code clone detection algorithms, and repository structure awareness",
+          "Token-level embeddings with attention pooling, docstring-code alignment, API usage pattern recognition, and hierarchical clustering by functionality",
+          "Code-specific transformer models with contrastive learning, semantic parsing for intent understanding, dependency graph embeddings, and test-driven retrieval",
+          "Hybrid approach combining lexical matching with neural embeddings, code execution trace analysis, natural language query understanding, and relevance feedback"
+        ],
+        "answer_index": 2,
+        "topic": "rag"
+      },
+      {
+        "id": "rag_5",
+        "question": "When optimizing RAG systems for domain-specific knowledge with limited training data, what few-shot learning approach would be most effective for embedding fine-tuning?",
+        "choices": [
+          "Prototypical networks with episodic training, support set sampling from domain data, query-aware attention mechanisms, and gradient-based meta-learning",
+          "Contrastive learning with hard negative mining, domain adaptation techniques, knowledge distillation from larger models, and prompt-based fine-tuning",
+          "Meta-learning with model-agnostic meta-learning (MAML), task-specific initialization, adaptation through gradient descent, and cross-domain transfer",
+          "Siamese networks with triplet loss, domain-specific data augmentation, self-supervised pretraining objectives, and retrieval-augmented training loops"
+        ],
+        "answer_index": 1,
+        "topic": "rag"
+      },
+      {
+        "id": "rag_6",
+        "question": "For handling conflicting information in retrieved contexts during RAG inference, what conflict resolution and information synthesis approach would be most robust?",
+        "choices": [
+          "Source credibility scoring with temporal decay, majority voting mechanisms, uncertainty quantification, and evidence-based reasoning with citation tracking",
+          "Attention-based context fusion with learned conflict detection, adversarial training for robustness, multi-perspective reasoning, and consensus building",
+          "Hierarchical information extraction with fact verification, knowledge graph integration for consistency checking, and probabilistic inference over beliefs",
+          "Ensemble methods with diverse retrieval strategies, cross-validation of retrieved content, information theoretic measures for confidence, and active learning"
+        ],
+        "answer_index": 0,
+        "topic": "rag"
+      },
+      {
+        "id": "rag_7",
+        "question": "When implementing privacy-preserving RAG for sensitive documents, what approach would maintain retrieval quality while ensuring data protection compliance?",
+        "choices": [
+          "Homomorphic encryption for encrypted search, secure multi-party computation for similarity scoring, differential privacy for query obfuscation, and trusted execution",
+          "Federated retrieval across distributed knowledge bases, on-device embedding computation, local differential privacy, and secure aggregation protocols",
+          "Data anonymization with k-anonymity guarantees, synthetic data generation for training, privacy-preserving indexing, and access control with audit trails",
+          "Confidential computing environments, zero-knowledge proofs for verification, encrypted vector databases, and secure enclaves for embedding computation"
+        ],
+        "answer_index": 1,
+        "topic": "rag"
+      },
+      {
+        "id": "rag_8",
+        "question": "For scaling RAG systems to handle millions of concurrent users with personalized retrieval, what caching and optimization strategy would be most effective?",
+        "choices": [
+          "Multi-tier caching with Redis clusters, user embedding precomputation, query result memoization, and CDN integration for geographically distributed serving",
+          "Hierarchical caching with LRU eviction policies, approximate nearest neighbor with learned indices, batch processing for similar queries, and edge caching",
+          "Personalized embedding spaces with user clustering, context-aware caching strategies, intelligent prefetching based on user behavior, and distributed cache invalidation",
+          "Bloom filters for negative caching, locality-sensitive hashing for approximate matching, query clustering for cache optimization, and adaptive cache sizing"
+        ],
+        "answer_index": 2,
+        "topic": "rag"
+      },
+      {
+        "id": "rag_9",
+        "question": "When evaluating RAG system performance beyond traditional metrics, what comprehensive evaluation framework would capture real-world effectiveness most accurately?",
+        "choices": [
+          "Human evaluation with expert annotators, faithfulness scoring with fact-checking models, relevance assessment with domain experts, and user satisfaction surveys",
+          "Automated metrics including BLEU, ROUGE, BERTScore, retrieval precision/recall, hallucination detection, and answer consistency across multiple runs",
+          "End-to-end evaluation with real user queries, A/B testing frameworks, business metric correlation, retrieval quality assessment, and generation quality analysis",
+          "Adversarial testing with challenging queries, robustness evaluation under distribution shift, calibration assessment, and interpretability analysis of retrieval decisions"
+        ],
+        "answer_index": 2,
+        "topic": "rag"
+      },
+      {
+        "id": "rag_10",
+        "question": "For implementing adaptive retrieval in RAG systems that adjusts strategy based on query complexity and context requirements, what approach would be most intelligent?",
+        "choices": [
+          "Query complexity classification with routing to appropriate retrieval strategies, dynamic k-selection based on query type, multi-stage retrieval with refinement",
+          "Reinforcement learning for retrieval strategy selection, contextual bandits for exploration-exploitation, adaptive scoring functions, and online learning",
+          "Meta-learning approach with strategy recommendation, query embedding analysis for complexity estimation, hierarchical retrieval with early stopping",
+          "Rule-based routing with machine learning fallback, query intent classification, confidence-based retrieval depth adjustment, and feedback-driven optimization"
+        ],
+        "answer_index": 1,
+        "topic": "rag"
+      }
+    ],
+    "nlp": [
+      {
+        "id": "nlp_1",
+        "question": "When fine-tuning large language models for domain-specific tasks with limited labeled data, what approach would maximize performance while preventing catastrophic forgetting?",
+        "choices": [
+          "Elastic Weight Consolidation (EWC) with importance-weighted parameter updates, continual learning with memory replay, and adaptive learning rate scheduling",
+          "Parameter-efficient fine-tuning using LoRA adapters, gradient-based meta-learning with MAML, and knowledge distillation from the original pre-trained model",
+          "Multi-task learning with shared representations, regularization techniques like dropout and weight decay, and progressive unfreezing of transformer layers",
+          "Few-shot learning with prompt engineering, in-context learning demonstrations, retrieval-augmented fine-tuning, and ensemble methods across different checkpoints"
+        ],
+        "answer_index": 1,
+        "topic": "nlp"
+      },
+      {
+        "id": "nlp_2",
+        "question": "For implementing multilingual named entity recognition with cross-lingual transfer learning, what architecture would provide optimal performance across diverse languages?",
+        "choices": [
+          "Multilingual BERT with language-specific adapters, cross-lingual word embeddings alignment, and adversarial training for language-invariant representations",
+          "XLM-RoBERTa with task-specific heads, meta-learning for rapid adaptation to new languages, and self-supervised cross-lingual pretraining objectives",
+          "mT5 with sequence-to-sequence formulation, multilingual prompt templates, zero-shot transfer capabilities, and language-agnostic entity type representations",
+          "Universal Dependencies parsing with graph neural networks, morphological analysis integration, and character-level models for handling unseen languages"
+        ],
+        "answer_index": 1,
+        "topic": "nlp"
+      },
+      {
+        "id": "nlp_3",
+        "question": "When dealing with adversarial attacks on NLP models in production, what defense strategy would provide comprehensive robustness against multiple attack vectors?",
+        "choices": [
+          "Adversarial training with diverse attack methods, input preprocessing with spell checking and paraphrasing, ensemble defenses with model diversity",
+          "Certified defenses with provable robustness guarantees, randomized smoothing techniques, input purification, and anomaly detection for attack identification",
+          "Gradient masking with obfuscated gradients, defensive distillation for model hardening, input transformation with semantic preserving modifications",
+          "Detection-based defenses with statistical analysis, robust optimization during training, feature squeezing, and human-in-the-loop verification systems"
+        ],
+        "answer_index": 1,
+        "topic": "nlp"
+      },
+      {
+        "id": "nlp_4",
+        "question": "For implementing real-time sentiment analysis on streaming social media data with concept drift adaptation, what approach would maintain accuracy over time?",
+        "choices": [
+          "Online learning algorithms with exponential forgetting, drift detection using statistical tests, adaptive model retraining, and ensemble methods",
+          "Continual learning with experience replay, meta-learning for fast adaptation, active learning for selective annotation, and transfer learning from related domains",
+          "Streaming machine learning with Hoeffding trees, concept drift detection algorithms, incremental model updates, and sliding window approaches",
+          "Federated learning across data sources, self-supervised learning for unlabeled data, domain adaptation techniques, and temporal model ensembles"
+        ],
+        "answer_index": 0,
+        "topic": "nlp"
+      },
+      {
+        "id": "nlp_5",
+        "question": "When building a conversational AI system with multi-turn dialogue understanding, what approach would best capture long-term context and coherence?",
+        "choices": [
+          "Transformer-based dialogue models with positional encodings, attention mechanisms across turns, memory networks for long-term context storage",
+          "Graph neural networks representing dialogue structure, coreference resolution, entity tracking, and hierarchical attention over conversation history",
+          "Recurrent neural networks with attention, dialogue state tracking, context vector updates, and explicit memory modules for important information retention",
+          "Large language models with instruction tuning, few-shot learning with dialogue examples, prompt engineering for context maintenance, and retrieval-augmented generation"
+        ],
+        "answer_index": 1,
+        "topic": "nlp"
+      },
+      {
+        "id": "nlp_6",
+        "question": "For implementing privacy-preserving NLP in federated learning settings with sensitive text data, what approach would balance privacy and model utility?",
+        "choices": [
+          "Differential privacy with carefully calibrated noise injection, local differential privacy, secure aggregation protocols, and privacy budget management",
+          "Homomorphic encryption for computation on encrypted text, secure multi-party computation, trusted execution environments, and zero-knowledge proofs",
+          "Data anonymization with k-anonymity, synthetic data generation using GANs, local training with gradient compression, and selective parameter sharing",
+          "Federated distillation with teacher-student models, split learning architecture, privacy-preserving embeddings, and decentralized training coordination"
+        ],
+        "answer_index": 0,
+        "topic": "nlp"
+      },
+      {
+        "id": "nlp_7",
+        "question": "When optimizing transformer models for edge deployment with strict latency and memory constraints, what compression approach would maintain performance?",
+        "choices": [
+          "Knowledge distillation with smaller student models, pruning techniques, quantization to lower precision, and efficient attention mechanisms like Linformer",
+          "Neural architecture search for optimal model design, mobile-optimized operators, dynamic inference with early exit strategies, and layer sharing",
+          "Model compression through weight sharing, tucker decomposition, low-rank approximations, and specialized hardware acceleration with optimized kernels",
+          "Progressive knowledge distillation, adaptive computation time, conditional computing with mixture of experts, and runtime optimization techniques"
+        ],
+        "answer_index": 0,
+        "topic": "nlp"
+      },
+      {
+        "id": "nlp_8",
+        "question": "For building robust fact-checking systems that can verify claims across multiple domains, what approach would provide comprehensive verification capabilities?",
+        "choices": [
+          "Multi-evidence retrieval from diverse sources, claim decomposition into sub-claims, evidence aggregation with conflict resolution, and stance classification",
+          "Knowledge graph integration with automated fact extraction, temporal reasoning for time-sensitive claims, source credibility assessment, and explanation generation",
+          "Neural fact verification with attention over evidence, automated evidence collection from web sources, logical reasoning capabilities, and uncertainty quantification",
+          "Ensemble approach combining multiple verification models, cross-domain transfer learning, adversarial training for robustness, and human expert validation"
+        ],
+        "answer_index": 1,
+        "topic": "nlp"
+      },
+      {
+        "id": "nlp_9",
+        "question": "When implementing controllable text generation with specific attributes like style, sentiment, and topic, what approach would provide fine-grained control?",
+        "choices": [
+          "Conditional language models with attribute embeddings, controllable generation with PPLM, reinforcement learning from human feedback, and style transfer techniques",
+          "Plug-and-play language models with attribute classifiers, gradient-based steering, contrastive search decoding, and multi-objective optimization",
+          "Prompt-based generation with carefully crafted templates, few-shot learning demonstrations, instruction tuning, and retrieval-augmented generation",
+          "Variational autoencoders with disentangled representations, latent space manipulation, adversarial training for attribute control, and cycle consistency loss"
+        ],
+        "answer_index": 1,
+        "topic": "nlp"
+      },
+      {
+        "id": "nlp_10",
+        "question": "For evaluating large language models on complex reasoning tasks with reliable metrics, what evaluation framework would provide comprehensive assessment?",
+        "choices": [
+          "Human evaluation with expert annotators, multi-dimensional scoring rubrics, inter-annotator agreement measures, and qualitative error analysis",
+          "Automated evaluation using reference-based metrics, BERTScore for semantic similarity, logical consistency checking, and adversarial test generation",
+          "Chain-of-thought evaluation with step-by-step reasoning assessment, factual accuracy verification, hallucination detection, and calibration measurement",
+          "Benchmark suite with diverse reasoning tasks, few-shot evaluation protocols, robustness testing under distribution shift, and interpretability analysis"
+        ],
+        "answer_index": 2,
+        "topic": "nlp"
+      }
+    ],
+    "ai": [
+      {
+        "id": "ai_1",
+        "question": "When implementing a multi-agent reinforcement learning system for autonomous vehicle coordination, what approach would achieve optimal collective behavior?",
+        "choices": [
+          "Multi-Agent Deep Deterministic Policy Gradient (MADDPG) with centralized training and decentralized execution, shared experience replay, opponent modeling",
+          "Independent Q-learning agents with communication protocols, emergent coordination through reward shaping, hierarchical decomposition of driving tasks",
+          "Graph neural networks for agent interaction modeling, attention mechanisms for selective communication, curriculum learning for complex scenarios",
+          "Centralized training with counterfactual reasoning, decentralized execution with local observations, credit assignment for collective rewards"
+        ],
+        "answer_index": 0,
+        "topic": "ai"
+      },
+      {
+        "id": "ai_2",
+        "question": "For implementing explainable AI in high-stakes medical diagnosis systems, what approach would provide the most reliable and interpretable explanations?",
+        "choices": [
+          "LIME and SHAP for local interpretability, attention visualization for transformer models, counterfactual explanations, and feature importance ranking",
+          "Neural-symbolic integration with logical reasoning, causal inference frameworks, uncertainty quantification, and human-interpretable decision rules",
+          "Gradient-based attribution methods, integrated gradients, guided backpropagation, and saliency map generation with clinical validation",
+          "Model-agnostic explanations with surrogate models, rule extraction algorithms, concept activation vectors, and interactive explanation interfaces"
+        ],
+        "answer_index": 1,
+        "topic": "ai"
+      },
+      {
+        "id": "ai_3",
+        "question": "When designing AI systems for real-time decision making under uncertainty with safety-critical constraints, what framework would be most appropriate?",
+        "choices": [
+          "Bayesian deep learning with uncertainty estimation, Monte Carlo dropout, ensemble methods, and probabilistic safety guarantees with confidence intervals",
+          "Constrained Markov decision processes with safety constraints, robust optimization, minimax approaches, and formal verification of safety properties",
+          "Safe reinforcement learning with constrained policy optimization, reward shaping for safety, human oversight mechanisms, and graceful degradation strategies",
+          "Multi-objective optimization with Pareto frontier analysis, risk-aware planning algorithms, game-theoretic approaches, and adaptive safety thresholds"
+        ],
+        "answer_index": 1,
+        "topic": "ai"
+      },
+      {
+        "id": "ai_4",
+        "question": "For implementing continual learning in AI systems that must adapt to new tasks without forgetting previous knowledge, what approach would be most effective?",
+        "choices": [
+          "Elastic Weight Consolidation (EWC) with Fisher information matrix, Progressive Neural Networks, PackNet with pruning, and memory replay mechanisms",
+          "Meta-learning with MAML for rapid adaptation, gradient-based meta-learning, few-shot learning capabilities, and task-agnostic representations",
+          "Modular neural networks with dynamic routing, mixture of experts, adaptive network capacity, and task-specific parameter allocation",
+          "Knowledge distillation with teacher-student frameworks, incremental learning algorithms, catastrophic forgetting mitigation, and lifelong learning architectures"
+        ],
+        "answer_index": 0,
+        "topic": "ai"
+      },
+      {
+        "id": "ai_5",
+        "question": "When building AI systems for creative content generation with controllable diversity and quality, what generative modeling approach would be most suitable?",
+        "choices": [
+          "Generative Adversarial Networks with progressive growing, StyleGAN architecture, latent space manipulation, and quality-diversity trade-off optimization",
+          "Variational Autoencoders with β-VAE for disentangled representations, conditional generation, hierarchical latent spaces, and controllable sampling",
+          "Diffusion models with classifier-free guidance, DDPM sampling strategies, text-to-image generation capabilities, and iterative refinement processes",
+          "Autoregressive models with transformer architecture, top-k and nucleus sampling, prompt engineering, and reinforcement learning from human feedback"
+        ],
+        "answer_index": 2,
+        "topic": "ai"
+      },
+      {
+        "id": "ai_6",
+        "question": "For implementing AI governance and fairness in large-scale recommendation systems, what comprehensive approach would address bias and accountability?",
+        "choices": [
+          "Algorithmic auditing with bias detection metrics, fairness constraints during training, diverse dataset curation, and transparent decision-making processes",
+          "Multi-stakeholder governance frameworks, ethical review boards, bias testing protocols, user consent mechanisms, and algorithmic transparency reports",
+          "Technical fairness interventions like demographic parity, equalized odds, calibration across groups, and adversarial debiasing with fairness-accuracy trade-offs",
+          "Comprehensive approach combining technical fairness methods, governance frameworks, continuous monitoring, stakeholder engagement, and regulatory compliance"
+        ],
+        "answer_index": 3,
+        "topic": "ai"
+      },
+      {
+        "id": "ai_7",
+        "question": "When designing AI systems for human-AI collaboration in complex decision-making scenarios, what interaction paradigm would optimize joint performance?",
+        "choices": [
+          "Shared mental models with explainable AI, adaptive automation levels, trust calibration mechanisms, and complementary skill utilization strategies",
+          "Human-in-the-loop systems with active learning, uncertainty-based querying, interactive machine learning, and feedback incorporation mechanisms",
+          "AI assistance with recommendation systems, decision support tools, cognitive augmentation, and seamless handoff between human and AI control",
+          "Collaborative intelligence frameworks with role allocation, dynamic teaming, situational awareness sharing, and mutual adaptation capabilities"
+        ],
+        "answer_index": 0,
+        "topic": "ai"
+      },
+      {
+        "id": "ai_8",
+        "question": "For scaling AI training to extremely large datasets and models while maintaining efficiency, what distributed computing approach would be optimal?",
+        "choices": [
+          "Data parallelism with synchronized gradient updates, parameter servers, all-reduce communication patterns, and gradient compression techniques",
+          "Model parallelism with pipeline execution, tensor slicing across devices, memory-efficient training, and activation checkpointing for large models",
+          "Hybrid parallelization combining data and model parallelism, ZeRO optimizer state partitioning, gradient accumulation, and heterogeneous computing",
+          "Federated learning with local model updates, secure aggregation protocols, communication-efficient algorithms, and differential privacy guarantees"
+        ],
+        "answer_index": 2,
+        "topic": "ai"
+      },
+      {
+        "id": "ai_9",
+        "question": "When implementing AI systems with formal verification and safety guarantees, what approach would provide provable correctness for critical applications?",
+        "choices": [
+          "Abstract interpretation for neural network verification, SMT solvers for constraint satisfaction, bounded model checking, and invariant generation",
+          "Formal specification languages with temporal logic, theorem proving systems, model checking algorithms, and compositional verification techniques",
+          "Neural network verification tools like Marabou, Reluplex, safety property specification, adversarial robustness certification, and reachability analysis",
+          "Comprehensive verification framework combining multiple approaches, property-based testing, formal contract specification, and runtime monitoring"
+        ],
+        "answer_index": 3,
+        "topic": "ai"
+      },
+      {
+        "id": "ai_10",
+        "question": "For implementing AI systems that can reason about causality and make counterfactual inferences, what framework would provide the most comprehensive causal reasoning?",
+        "choices": [
+          "Pearl's causal hierarchy with do-calculus, structural causal models, causal discovery algorithms, and interventional reasoning capabilities",
+          "Potential outcomes framework with treatment effect estimation, propensity score matching, instrumental variables, and causal inference from observational data",
+          "Graph-based causal models with directed acyclic graphs, backdoor criterion, front-door criterion, and mediation analysis for complex causal relationships",
+          "Neural causal models with differentiable causal discovery, end-to-end learning of causal relationships, counterfactual generation, and causal representation learning"
+        ],
+        "answer_index": 0,
+        "topic": "ai"
+      }
+    ],
+    "ml": [
+      {
+        "id": "ml_1",
+        "question": "When implementing AutoML systems for automated feature engineering and model selection, what approach would provide optimal performance across diverse datasets?",
+        "choices": [
+          "Bayesian optimization with Gaussian processes for hyperparameter tuning, meta-learning for warm-start initialization, multi-fidelity optimization, progressive search",
+          "Neural architecture search with evolutionary algorithms, differentiable architecture search, progressive growing of networks, and hardware-aware optimization",
+          "Automated feature engineering with deep feature synthesis, genetic programming for feature construction, feature selection using mutual information, dimensionality reduction",
+          "Multi-armed bandit approaches for algorithm selection, portfolio methods combining multiple strategies, early stopping with performance prediction, resource allocation"
+        ],
+        "answer_index": 0,
+        "topic": "ml"
+      },
+      {
+        "id": "ml_2",
+        "question": "For handling extreme class imbalance in large-scale ML systems where positive class represents <0.1% of data, what comprehensive strategy would be most effective?",
+        "choices": [
+          "SMOTE and ADASYN for synthetic oversampling, Tomek links for undersampling, cost-sensitive learning with class weights, ensemble methods with balanced bagging",
+          "Focal loss for addressing class imbalance, hard negative mining, cascade classifiers with rejection thresholds, and anomaly detection framing of the problem",
+          "Two-stage approach with anomaly detection followed by classification, self-supervised pretraining, contrastive learning, and few-shot learning techniques",
+          "Metric learning with triplet loss, one-class SVM for novelty detection, transfer learning from related domains, and active learning for intelligent data collection"
+        ],
+        "answer_index": 1,
+        "topic": "ml"
+      },
+      {
+        "id": "ml_3",
+        "question": "When designing ML pipelines for real-time fraud detection with sub-second latency requirements and concept drift, what architecture would be optimal?",
+        "choices": [
+          "Online learning algorithms with incremental updates, feature stores with precomputed aggregations, model ensembles with voting, real-time feature engineering",
+          "Streaming ML with Apache Kafka and Apache Flink, online model serving with Redis, concept drift detection, adaptive learning rates, and model versioning",
+          "Edge deployment with model quantization, feature caching strategies, approximate algorithms for speed, and periodic model updates from central system",
+          "Lambda architecture with batch and stream processing, feature store with low-latency serving, online learning with experience replay, A/B testing framework"
+        ],
+        "answer_index": 1,
+        "topic": "ml"
+      },
+      {
+        "id": "ml_4",
+        "question": "For implementing robust ML systems that maintain performance under adversarial attacks and distribution shift, what defense strategy would be comprehensive?",
+        "choices": [
+          "Adversarial training with PGD and C&W attacks, certified defenses with randomized smoothing, ensemble defenses with diverse architectures, input preprocessing",
+          "Domain adaptation techniques, robust optimization with minimax training, uncertainty quantification, out-of-distribution detection, and graceful degradation",
+          "Multi-task learning for robustness, meta-learning for adaptation, regularization techniques, data augmentation, and continuous monitoring with drift detection",
+          "Comprehensive robustness framework combining adversarial training, domain adaptation, uncertainty estimation, monitoring systems, and automated retraining"
+        ],
+        "answer_index": 3,
+        "topic": "ml"
+      },
+      {
+        "id": "ml_5",
+        "question": "When optimizing deep learning models for efficient inference on resource-constrained devices, what model compression approach would maintain accuracy?",
+        "choices": [
+          "Network pruning with magnitude-based and gradual pruning, structured pruning for hardware efficiency, lottery ticket hypothesis, and dynamic sparsity",
+          "Knowledge distillation with teacher-student training, progressive distillation, attention transfer, and feature matching between teacher and student networks",
+          "Quantization with post-training quantization, quantization-aware training, mixed-precision arithmetic, and specialized low-bit arithmetic operations",
+          "Neural architecture search for efficient architectures, MobileNets with depthwise separable convolutions, EfficientNets with compound scaling, hardware co-design"
+        ],
+        "answer_index": 1,
+        "topic": "ml"
+      },
+      {
+        "id": "ml_6",
+        "question": "For implementing federated learning systems with non-IID data distribution and privacy constraints, what approach would optimize convergence and privacy?",
+        "choices": [
+          "FedAvg with client sampling, local SGD updates, communication rounds optimization, and differential privacy with carefully calibrated noise injection",
+          "Personalized federated learning with local adaptation, meta-learning for personalization, clustered federated learning, and multi-task learning approaches",
+          "FedProx with proximal terms for handling heterogeneity, scaffold for variance reduction, adaptive optimization, and secure aggregation protocols",
+          "Comprehensive federated learning framework with non-IID handling, privacy preservation, communication efficiency, personalization, and robustness guarantees"
+        ],
+        "answer_index": 3,
+        "topic": "ml"
+      },
+      {
+        "id": "ml_7",
+        "question": "When building ML systems for time series forecasting with multiple seasonality patterns and external factors, what modeling approach would be most accurate?",
+        "choices": [
+          "Prophet with additive and multiplicative seasonality, holiday effects, trend changepoint detection, and uncertainty intervals with Bayesian inference",
+          "DeepAR with autoregressive recurrent networks, probabilistic forecasting, embedding for categorical features, and attention mechanisms for long sequences",
+          "Transformer-based models with temporal attention, positional encodings for time, multi-scale decomposition, and hierarchical forecasting capabilities",
+          "Hybrid approach combining statistical methods (ARIMA, exponential smoothing) with neural networks, ensemble forecasting, and adaptive model selection"
+        ],
+        "answer_index": 2,
+        "topic": "ml"
+      },
+      {
+        "id": "ml_8",
+        "question": "For implementing interpretable ML systems in regulated industries with strict explanation requirements, what approach would provide comprehensive interpretability?",
+        "choices": [
+          "Linear models with regularization, tree-based models with feature importance, rule-based systems, and additive models with interpretable components",
+          "Post-hoc explanation methods like LIME, SHAP, integrated gradients, counterfactual explanations, and feature attribution with uncertainty quantification",
+          "Inherently interpretable models with attention mechanisms, prototype-based learning, concept bottleneck models, and neural additive models",
+          "Multi-level interpretability combining global model explanations, local instance explanations, feature importance, decision rules, and human-in-the-loop validation"
+        ],
+        "answer_index": 3,
+        "topic": "ml"
+      },
+      {
+        "id": "ml_9",
+        "question": "When designing ML systems for multi-modal learning combining vision, text, and audio, what fusion approach would achieve optimal cross-modal understanding?",
+        "choices": [
+          "Early fusion with concatenated features, late fusion with decision-level combination, intermediate fusion with shared representations, attention-based fusion",
+          "Multi-modal transformers with cross-attention, unified embedding spaces, contrastive learning across modalities, and joint training objectives",
+          "Modality-specific encoders with cross-modal alignment, adversarial training for modality-invariant features, hierarchical fusion, and multi-task learning",
+          "Graph neural networks for modality relationships, memory networks for cross-modal interaction, progressive fusion with uncertainty weighting"
+        ],
+        "answer_index": 1,
+        "topic": "ml"
+      },
+      {
+        "id": "ml_10",
+        "question": "For implementing large-scale distributed ML training with fault tolerance and elastic scaling, what system architecture would provide optimal reliability?",
+        "choices": [
+          "Parameter server architecture with asynchronous updates, backup parameter servers, checkpoint-restart mechanisms, and dynamic worker allocation",
+          "AllReduce-based training with ring topology, fault detection and recovery, elastic training with dynamic scaling, and gradient compression",
+          "Hybrid approach with synchronous local updates and asynchronous global updates, hierarchical communication, preemptible instance handling, model parallelism",
+          "Container orchestration with Kubernetes, auto-scaling based on resource utilization, persistent volume claims for checkpoints, service mesh for communication"
+        ],
+        "answer_index": 2,
+        "topic": "ml"
+      }
+    ],
+    "backend_api": [
+      {
+        "id": "api_1",
+        "question": "When designing a high-throughput API system handling 1M+ requests per second with strict SLA requirements, what architecture would provide optimal performance?",
+        "choices": [
+          "Microservices with async messaging, event-driven architecture, CQRS pattern, distributed caching with Redis Cluster, and auto-scaling based on metrics",
+          "Serverless architecture with AWS Lambda, API Gateway with caching, DynamoDB for data storage, CloudFront CDN, and automatic scaling capabilities",
+          "Monolithic architecture with optimized database queries, connection pooling, in-memory caching, horizontal scaling, and load balancing strategies",
+          "Service mesh with Istio, container orchestration with Kubernetes, distributed tracing, circuit breakers, and progressive deployment strategies"
+        ],
+        "answer_index": 0,
+        "topic": "backend_api"
+      },
+      {
+        "id": "api_2",
+        "question": "For implementing robust API authentication and authorization with fine-grained access control, what security framework would be most comprehensive?",
+        "choices": [
+          "OAuth 2.0 with PKCE, JWT tokens with short expiration, refresh token rotation, scope-based permissions, and rate limiting per client",
+          "Zero Trust security model with mutual TLS, API key management, role-based access control, attribute-based access control, and runtime policy enforcement",
+          "OpenID Connect with identity providers, SAML federation, multi-factor authentication, session management, and centralized policy administration",
+          "Custom authentication with bcrypt password hashing, session tokens, CSRF protection, CORS configuration, and SQL injection prevention"
+        ],
+        "answer_index": 1,
+        "topic": "backend_api"
+      },
+      {
+        "id": "api_3",
+        "question": "When implementing API versioning strategy for backward compatibility while enabling evolution, what approach would minimize client disruption?",
+        "choices": [
+          "URL versioning with /v1/, /v2/ paths, deprecated version support timeline, migration guides, and automated compatibility testing across versions",
+          "Header-based versioning with Accept headers, content negotiation, semantic versioning, feature flags, and progressive API evolution strategies",
+          "GraphQL with schema evolution, field deprecation warnings, resolver versioning, introspection capabilities, and client-driven field selection",
+          "API gateway with routing rules, transformation policies, version-specific endpoints, canary deployments, and real-time compatibility monitoring"
+        ],
+        "answer_index": 2,
+        "topic": "backend_api"
+      },
+      {
+        "id": "api_4",
+        "question": "For building resilient API systems with fault tolerance and graceful degradation, what patterns would provide comprehensive reliability?",
+        "choices": [
+          "Circuit breaker pattern, retry mechanisms with exponential backoff, bulkhead isolation, timeout configurations, and health check endpoints",
+          "Event sourcing with command query responsibility segregation, saga pattern for distributed transactions, eventual consistency, compensation actions",
+          "Microservices with service mesh, distributed tracing, chaos engineering, observability stack, and automated incident response systems",
+          "Comprehensive resilience patterns including circuit breakers, retries, bulkheads, rate limiting, graceful degradation, and monitoring with alerting"
+        ],
+        "answer_index": 3,
+        "topic": "backend_api"
+      },
+      {
+        "id": "api_5",
+        "question": "When implementing real-time API systems with WebSocket connections and event streaming, what architecture would handle millions of concurrent connections?",
+        "choices": [
+          "Node.js with Socket.io, Redis for session storage, horizontal scaling with sticky sessions, connection pooling, and message broadcasting optimization",
+          "Apache Kafka for event streaming, WebSocket gateways with connection multiplexing, partitioned topics, consumer groups, and exactly-once delivery semantics",
+          "Server-Sent Events with HTTP/2 multiplexing, edge caching, connection coalescing, push notifications, and client reconnection strategies",
+          "Event-driven architecture with message brokers, WebSocket clusters, load balancing with session affinity, backpressure handling, connection lifecycle management"
+        ],
+        "answer_index": 3,
+        "topic": "backend_api"
+      },
+      {
+        "id": "api_6",
+        "question": "For implementing API observability and monitoring in distributed systems, what approach would provide comprehensive insights into system behavior?",
+        "choices": [
+          "Distributed tracing with Jaeger, metrics collection with Prometheus, log aggregation with ELK stack, custom dashboards, and alert management",
+          "Application Performance Monitoring with New Relic, error tracking with Sentry, uptime monitoring, synthetic testing, and business metrics correlation",
+          "OpenTelemetry for standardized observability, service maps, dependency analysis, performance profiling, and automated anomaly detection systems",
+          "Comprehensive observability platform combining distributed tracing, metrics, logs, synthetic monitoring, chaos testing, and AI-driven root cause analysis"
+        ],
+        "answer_index": 3,
+        "topic": "backend_api"
+      },
+      {
+        "id": "api_7",
+        "question": "When designing API data consistency strategies for distributed databases, what approach would balance consistency, availability, and partition tolerance?",
+        "choices": [
+          "Strong consistency with distributed transactions, two-phase commit protocol, consensus algorithms like Raft, and linearizable read operations",
+          "Eventual consistency with conflict-free replicated data types, vector clocks, anti-entropy mechanisms, and read repair for data convergence",
+          "Hybrid consistency models with strong consistency for critical operations, eventual consistency for non-critical data, and tunable consistency levels",
+          "Multi-master replication with conflict resolution, causal consistency, session consistency guarantees, and application-level conflict handling strategies"
+        ],
+        "answer_index": 2,
+        "topic": "backend_api"
+      },
+      {
+        "id": "api_8",
+        "question": "For implementing API caching strategies in high-traffic systems with dynamic content, what multi-layer caching approach would be most effective?",
+        "choices": [
+          "CDN edge caching, application-level caching with Redis, database query result caching, HTTP caching headers, and cache invalidation strategies",
+          "Reverse proxy caching with Varnish, in-memory application caches, distributed caching, cache-aside pattern, and write-through caching mechanisms",
+          "Multi-tier caching architecture with browser cache, CDN cache, API gateway cache, application cache, and database cache with coherence protocols",
+          "Intelligent caching with machine learning for cache prediction, adaptive TTL based on access patterns, cache warming strategies, and real-time invalidation"
+        ],
+        "answer_index": 2,
+        "topic": "backend_api"
+      },
+      {
+        "id": "api_9",
+        "question": "When implementing API testing strategies for complex distributed systems, what approach would ensure comprehensive quality assurance?",
+        "choices": [
+          "Unit testing with mocking, integration testing, end-to-end testing, contract testing with Pact, and load testing with realistic traffic patterns",
+          "Automated testing pipelines, property-based testing, mutation testing, chaos engineering, and continuous security testing with vulnerability scanning",
+          "API contract testing, schema validation, consumer-driven contracts, service virtualization for dependencies, and production testing in canary deployments",
+          "Comprehensive testing strategy including unit/integration/e2e tests, contract testing, performance testing, security testing, chaos engineering, and monitoring"
+        ],
+        "answer_index": 3,
+        "topic": "backend_api"
+      },
+      {
+        "id": "api_10",
+        "question": "For implementing API governance and lifecycle management in large organizations, what framework would provide effective oversight and standardization?",
+        "choices": [
+          "API design standards with OpenAPI specifications, style guides, automated linting, review processes, and centralized API catalog management",
+          "API management platform with Kong or Apigee, policy enforcement, analytics and monitoring, developer portal, and lifecycle automation workflows",
+          "Governance committees with architectural review boards, compliance checking, security assessments, deprecation policies, and change management processes",
+          "Comprehensive API governance combining design standards, management platforms, automated compliance checking, developer experience, organizational processes"
+        ],
+        "answer_index": 3,
+        "topic": "backend_api"
+      }
+    ]
+  },
   "coding": {
     "id": "code1",
     "language": "python",

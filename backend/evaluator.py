@@ -8,18 +8,80 @@ from typing import Any, Dict, List, Optional
 
 SAFE_BUILTINS = {
     "__builtins__": {
-        # Very minimal builtins for safety
+        # Essential Python builtins for coding challenges
         "len": len,
         "range": range,
         "list": list,
         "dict": dict,
         "set": set,
+        "tuple": tuple,
+        "str": str,
+        "int": int,
+        "float": float,
+        "bool": bool,
         "sorted": sorted,
         "min": min,
         "max": max,
         "sum": sum,
+        "abs": abs,
         "enumerate": enumerate,
         "zip": zip,
+        "map": map,
+        "filter": filter,
+        "any": any,
+        "all": all,
+        "iter": iter,
+        "next": next,
+        "reversed": reversed,
+        "round": round,
+        "pow": pow,
+        "divmod": divmod,
+        "isinstance": isinstance,
+        "issubclass": issubclass,
+        "hasattr": hasattr,
+        "getattr": getattr,
+        "setattr": setattr,
+        "type": type,
+        "callable": callable,
+        "ord": ord,
+        "chr": chr,
+        "hex": hex,
+        "oct": oct,
+        "bin": bin,
+        "hash": hash,
+        "id": id,
+        "repr": repr,
+        "print": print,  # Useful for debugging
+        # Collection operations
+        "frozenset": frozenset,
+        "slice": slice,
+        # String operations  
+        "ascii": ascii,
+        # Math operations
+        "complex": complex,
+        # Essential for basic Python functionality
+        "object": object,
+        "property": property,
+        "staticmethod": staticmethod,
+        "classmethod": classmethod,
+        "super": super,
+        # Essential Python internals
+        "__import__": __import__,
+        "__name__": "__main__",
+        "__file__": "<string>",
+        "__doc__": None,
+        "__package__": None,
+        "__loader__": None,
+        "__spec__": None,
+        # Exception handling
+        "Exception": Exception,
+        "ValueError": ValueError,
+        "TypeError": TypeError,
+        "KeyError": KeyError,
+        "IndexError": IndexError,
+        "AttributeError": AttributeError,
+        "StopIteration": StopIteration,
+        "RuntimeError": RuntimeError,
     }
 }
 

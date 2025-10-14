@@ -1,0 +1,90 @@
+{
+  "candidate_name": "John Doe",
+  "total_time_seconds": 1847,
+  "score_mcq": 9,
+  "total_mcq": 12,
+  "topic_wise_answers": {
+    "cloud_computing": [
+      {
+        "question_id": "cloud_2",
+        "question": "For a real-time ML pipeline processing 100k events/second with strict latency requirements (<10ms p99), which GCP architecture would be most appropriate?",
+        "user_answer_index": 1,
+        "user_answer": "GKE Autopilot with Knative serving, Bigtable for low-latency feature lookup, Dataflow for stream processing, and Memorystore Redis for caching",
+        "correct_answer_index": 1,
+        "correct_answer": "GKE Autopilot with Knative serving, Bigtable for low-latency feature lookup, Dataflow for stream processing, and Memorystore Redis for caching",
+        "is_correct": true
+      },
+      {
+        "question_id": "cloud_7",
+        "question": "When implementing federated learning across multiple cloud regions with privacy constraints, what security and compliance approach would be most comprehensive?",
+        "user_answer_index": 1,
+        "user_answer": "TLS encryption in transit, AES-256 encryption at rest, IAM roles with least privilege access, VPC peering for secure communication, and audit logging",
+        "correct_answer_index": 2,
+        "correct_answer": "Hardware security modules for key management, confidential computing with trusted execution environments, privacy-preserving aggregation, and formal verification",
+        "is_correct": false
+      }
+    ],
+    "rag": [
+      {
+        "question_id": "rag_3",
+        "question": "When dealing with rapidly changing knowledge bases in RAG systems, what incremental update strategy would maintain retrieval quality while minimizing computational overhead?",
+        "user_answer_index": 2,
+        "user_answer": "Event-driven incremental updates, lazy loading of embeddings, copy-on-write index structures, and merkle tree-based change tracking for efficiency",
+        "correct_answer_index": 2,
+        "correct_answer": "Event-driven incremental updates, lazy loading of embeddings, copy-on-write index structures, and merkle tree-based change tracking for efficiency",
+        "is_correct": true
+      }
+    ]
+  },
+  "coding_result": {
+    "passed": true,
+    "error": null,
+    "details": [
+      {
+        "input": {
+          "input_dict": {
+            "a": 8,
+            "b": 5,
+            "c": 8,
+            "d": 4,
+            "e": 7,
+            "f": 7,
+            "g": 1,
+            "h": 9,
+            "j": 3
+          },
+          "k": 2
+        },
+        "expected": [["a", "c"], ["e", "f"]],
+        "actual": [["a", "c"], ["e", "f"]],
+        "passed": true
+      },
+      {
+        "input": {
+          "input_dict": {
+            "a": 8,
+            "b": 5,
+            "c": 8,
+            "d": 4,
+            "e": 7,
+            "f": 7,
+            "g": 1,
+            "h": 9,
+            "j": 3
+          },
+          "k": 1
+        },
+        "expected": [["b"], ["d"], ["g"], ["h"], ["j"]],
+        "actual": [["b"], ["d"], ["g"], ["h"], ["j"]],
+        "passed": true
+      }
+    ]
+  },
+  "coding_points": 100,
+  "session_info": {
+    "session_id": "54b0c9b0-37d2-4f45-8eff-4e94b28b7cc5",
+    "timestamp": "2025-10-13T22:45:32.123Z",
+    "interview_date": "2025-10-13",
+    "interview_time": "22:45:32"
+  }
+}

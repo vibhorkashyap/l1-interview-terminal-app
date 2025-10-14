@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from pydantic import BaseModel
 
 
@@ -26,6 +26,7 @@ class SubmitRequest(BaseModel):
     session_id: str
     answers: Optional[List[AnswerItem]] = None
     code: Optional[str] = None  # raw python code string
+    total_time_seconds: Optional[int] = None  # total time taken in seconds
 
 
 class MCQQuestionPublic(BaseModel):
@@ -47,6 +48,10 @@ class CodingPublic(BaseModel):
 
 
 class SubmitResponse(BaseModel):
+    candidate_name: str
+    total_time_seconds: Optional[int] = None
     score_mcq: int
     total_mcq: int
+    topic_wise_answers: Dict[str, List[Dict[str, Any]]] = {}
     coding_result: Optional[dict] = None
+    coding_points: Optional[int] = None

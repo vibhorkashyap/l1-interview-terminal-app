@@ -1,0 +1,12 @@
+INFO:     Will watch for changes in these directories: ['/Users/vibhorkashyap/Projects/l1-interview-terminal-app']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [72271] using WatchFiles
+INFO:     Started server process [72314]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:60412 - "GET /api/config HTTP/1.1" 404 Not Found
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [72314]
+INFO:     Stopping reloader process [72271]
