@@ -1,4 +1,5 @@
 (() => {
+  const API_BASE = (window.API_BASE || '').replace(/\/$/, '');
   const qs = (s) => document.querySelector(s);
   const qsa = (s) => Array.from(document.querySelectorAll(s));
 
@@ -119,26 +120,26 @@
   }
 
   async function init() {
-    const cfgRes = await fetch('/api/config');
+    const cfgRes = await fetch(`${API_BASE}/api/config`);
     config = await cfgRes.json();
     updateProgress();
   }
 
   async function loadSessionQuestions() {
     if (!sessionId) return;
-    const qRes = await fetch(`/api/questions?session_id=${sessionId}`);
+    const qRes = await fetch(`${API_BASE}/api/questions?session_id=${sessionId}`);
     questions = await qRes.json();
   }
 
   async function fetchCoding() {
-    const res = await fetch('/api/coding');
+    const res = await fetch(`${API_BASE}/api/coding`);
     if (res.ok) coding = await res.json();
   }
 
   startBtn.addEventListener('click', async () => {
     const name = nameInput.value.trim();
     if (!name) { alert('Please enter your name.'); return; }
-    const res = await fetch('/api/start', {
+    const res = await fetch(`${API_BASE}/api/start`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name })
     });
@@ -188,7 +189,7 @@
       code: codeEditorCM ? codeEditorCM.getValue() : null,
       total_time_seconds: totalTimeSeconds
     };
-    const res = await fetch('/api/submit', {
+    const res = await fetch(`${API_BASE}/api/submit`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
@@ -255,7 +256,7 @@
     testResult.textContent = 'Running code...';
 
     try {
-      const response = await fetch('/api/test-code', {
+      const response = await fetch(`${API_BASE}/api/test-code`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
