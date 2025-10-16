@@ -3,6 +3,7 @@ services:
     name: l1-interview-backend
     env: python
     plan: free
+    rootDir: .
     buildCommand: pip install -r backend/requirements.txt
     startCommand: uvicorn backend.app:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /api/config
