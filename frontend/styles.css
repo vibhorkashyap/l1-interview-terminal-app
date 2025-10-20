@@ -197,6 +197,31 @@ textarea#codeEditor:focus {
 
 h1, h2 { margin: 8px 0 16px; color: var(--accent); }
 label { display: block; margin-bottom: 6px; color: #8fbf7a; }
+
+/* Validation message styling */
+.validation-message {
+  background-color: rgba(255, 95, 86, 0.1);
+  border: 1px solid var(--danger);
+  border-radius: 4px;
+  color: var(--danger);
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  font-family: var(--ubuntu-mono);
+  font-size: 14px;
+  animation: validation-appear 0.3s ease-out;
+}
+
+@keyframes validation-appear {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 input[type="text"] {
   width: 100%; max-width: 360px; background: #0f1112; color: var(--text);
   border: 1px solid #2a2d30; border-radius: 4px; padding: 10px 12px; outline: none;
@@ -278,6 +303,30 @@ button:hover { background: rgba(25, 249, 216, 0.08); }
   line-height: 1.6;
   color: var(--text);
 }
+
+/* Typewriter effect for questions */
+.question.typing {
+  position: relative;
+}
+
+.question.typing::after {
+  content: '▋';
+  color: var(--accent);
+  animation: typewriter-cursor 1s infinite;
+}
+
+@keyframes typewriter-cursor {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .question.typing::after {
+    animation: none;
+    opacity: 0.7;
+  }
+}
 .choices { 
   display: grid; 
   gap: 8px; 
@@ -304,6 +353,71 @@ button:hover { background: rgba(25, 249, 216, 0.08); }
   border-color: var(--accent); 
   color: var(--accent);
   background: rgba(25, 249, 216, 0.08);
+}
+
+/* Highlight animation for selected choice */
+.choice.selected-highlight {
+  background-color: rgba(25, 249, 216, 0.15);
+  color: var(--accent);
+  border-color: var(--accent);
+  transform: scale(1.02);
+  box-shadow: 0 0 20px rgba(25, 249, 216, 0.3);
+  animation: choice-glow 1s ease-out;
+}
+
+@keyframes choice-glow {
+  0% {
+    box-shadow: 0 0 0 rgba(25, 249, 216, 0);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(25, 249, 216, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(25, 249, 216, 0.3);
+  }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .choice.selected-highlight {
+    animation: none;
+  }
+}
+
+/* Disabled state for choices */
+.choice.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.choices.disabled {
+  pointer-events: none;
+}
+
+/* Question transition animation */
+.screen-quiz {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.question-transition-out {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.question-transition-in {
+  animation: question-slide-in 0.5s ease-out;
+}
+
+@keyframes question-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 textarea#codeEditor {

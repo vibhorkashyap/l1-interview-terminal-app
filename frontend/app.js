@@ -10,6 +10,7 @@
 
   const nameInput = qs('#nameInput');
   const startBtn = qs('#startBtn');
+  const nameValidation = qs('#nameValidation');
   const nextBtn = qs('#nextBtn');
   const runCodeBtn = qs('#runCodeBtn');
   const submitAllBtn = qs('#submitAllBtn');
@@ -34,10 +35,44 @@
   let timerInterval = null;
   let sessionStartTime = null; // Track when session actually starts
   let codeEditorCM = null; // CodeMirror instance
+  let typingTimer = null; // Typewriter animation timer
+  let isAdvancing = false; // Prevent multiple clicks during selection
 
   function showScreen(id) {
+    // Cancel any ongoing typing when switching screens
+    cancelTyping();
     qsa('.screen').forEach(el => el.classList.remove('visible'));
     qs(`#${id}`).classList.add('visible');
+  }
+
+  function cancelTyping() {
+    if (typingTimer) {
+      clearTimeout(typingTimer);
+      typingTimer = null;
+    }
+  }
+
+  function typeText(element, text, charactersPerSecond = 50) {
+    return new Promise((resolve) => {
+      cancelTyping();
+      element.textContent = '';
+      element.classList.add('typing');
+      
+      let i = 0;
+      const tick = () => {
+        if (i <= text.length) {
+          element.textContent = text.slice(0, i);
+          i++;
+          if (i <= text.length) {
+            typingTimer = setTimeout(tick, 1000 / charactersPerSecond);
+          } else {
+            element.classList.remove('typing');
+            resolve();
+          }
+        }
+      };
+      tick();
+    });
   }
 
   function updateProgress() {
@@ -61,20 +96,68 @@
   function renderQuestion() {
     const q = questions[currentIndex];
     if (!q) return;
-    questionText.textContent = q.question;
+    
+    // Cancel any existing typing and reset advancing state
+    cancelTyping();
+    isAdvancing = false;
+    
+    // Remove disabled state from choices container
+    choicesEl.classList.remove('disabled');
+    
+    // Start typewriter effect for question
+    typeText(questionText, q.question, 60);
+    
+    // Render choices immediately (they appear all at once)
     choicesEl.innerHTML = '';
     q.choices.forEach((choice, idx) => {
       const div = document.createElement('div');
       div.className = 'choice';
       div.textContent = choice;
-      if (selectedAnswers[q.id] === idx) div.classList.add('selected');
-      div.addEventListener('click', () => {
-        selectedAnswers[q.id] = idx;
-        renderQuestion();
-      });
+      
+      // Show if this choice was previously selected
+      if (selectedAnswers[q.id] === idx) {
+        div.classList.add('selected');
+      }
+      
+      div.addEventListener('click', () => handleChoiceClick(idx, div, q));
       choicesEl.appendChild(div);
     });
     updateProgress();
+  }
+  
+  function handleChoiceClick(choiceIndex, choiceElement, question) {
+    // Prevent multiple clicks during animation
+    if (isAdvancing) return;
+    isAdvancing = true;
+    
+    // Cancel typing animation
+    cancelTyping();
+    questionText.classList.remove('typing');
+    
+    // Disable all choices
+    choicesEl.classList.add('disabled');
+    
+    // Register the answer
+    selectedAnswers[question.id] = choiceIndex;
+    
+    // Add highlight animation
+    choiceElement.classList.add('selected-highlight');
+    
+    // Auto-advance after 1 second
+    setTimeout(() => {
+      choiceElement.classList.remove('selected-highlight');
+      
+      if (currentIndex < questions.length - 1) {
+        currentIndex += 1;
+        renderQuestion();
+      } else {
+        // Move to coding round
+        showScreen('screen-code');
+        renderCoding();
+        currentIndex += 1;
+        updateProgress();
+      }
+    }, 1000);
   }
 
   function renderCoding() {
@@ -96,6 +179,17 @@
     
     // Set the initial value
     codeEditorCM.setValue(coding.function_signature || '');
+    
+    // Position cursor on line 3 with proper indentation for function body
+    setTimeout(() => {
+      // Add a new line with proper indentation and position cursor there
+      const currentValue = codeEditorCM.getValue();
+      const newValue = currentValue + '    '; // Add 4 spaces for indentation
+      codeEditorCM.setValue(newValue);
+      codeEditorCM.setCursor(2, 4); // Line 3 (0-indexed), column 4 (after 4 spaces)
+      codeEditorCM.focus();
+    }, 100);
+    
     updateProgress();
   }
 
@@ -108,6 +202,9 @@
       if (remaining <= 0) {
         clearInterval(timerInterval);
         timerEl.textContent = '00:00';
+        // Cancel any ongoing typing or animations
+        cancelTyping();
+        isAdvancing = false;
         // Auto-submit when time runs out
         doSubmit();
         return;
@@ -137,45 +234,56 @@
   }
 
   startBtn.addEventListener('click', async () => {
+    console.log('Start button clicked');
     const name = nameInput.value.trim();
-    if (!name) { alert('Please enter your name.'); return; }
-    const res = await fetch(`${API_BASE}/api/start`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name })
-    });
-    const data = await res.json();
-    sessionId = data.session_id;
+    if (!name) { 
+      nameValidation.style.display = 'block';
+      nameInput.focus();
+      return; 
+    }
+    // Hide validation message if name is entered
+    nameValidation.style.display = 'none';
+    console.log('Making API call to /api/start with name:', name);
+    try {
+      const res = await fetch(`${API_BASE}/api/start`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name })
+      });
+      console.log('Start API response status:', res.status);
+      const data = await res.json();
+      console.log('Start API response data:', data);
+      sessionId = data.session_id;
 
-    // Load session-specific questions
-    await loadSessionQuestions();
+      // Load session-specific questions
+      console.log('Loading session questions...');
+      await loadSessionQuestions();
+      console.log('Questions loaded:', questions.length);
 
-    // Track session start time
-    sessionStartTime = Date.now();
+      // Track session start time
+      sessionStartTime = Date.now();
 
-    // Prepare quiz
-    currentIndex = 0;
-    updateProgress();
-    renderQuestion();
-    showScreen('screen-quiz');
-
-    startTimer(config?.duration_minutes || 45);
-
-    // Preload coding info
-    await fetchCoding();
-  });
-
-  nextBtn.addEventListener('click', () => {
-    if (currentIndex < questions.length - 1) {
-      currentIndex += 1;
-      renderQuestion();
-    } else {
-      // Move to coding
-      showScreen('screen-code');
-      renderCoding();
-      currentIndex += 1; // indicate we've moved past MCQs
+      // Prepare quiz
+      currentIndex = 0;
       updateProgress();
+      console.log('Showing quiz screen...');
+      showScreen('screen-quiz');
+      
+      // Small delay to ensure screen is visible before starting typewriter
+      setTimeout(() => {
+        renderQuestion();
+      }, 50);
+
+      startTimer(config?.duration_minutes || 45);
+
+      // Preload coding info
+      await fetchCoding();
+    } catch (error) {
+      console.error('Error in start button handler:', error);
+      alert('Error starting the test: ' + error.message);
     }
   });
+
+  // nextBtn removed - auto-advance on answer selection
 
   async function doSubmit() {
     const answers = Object.entries(selectedAnswers).map(([qid, choice_index]) => ({ qid, choice_index }));
@@ -297,6 +405,13 @@
 
   runCodeBtn.addEventListener('click', runCode);
   submitAllBtn.addEventListener('click', doSubmit);
+
+  // Hide validation message when user starts typing in name input
+  nameInput.addEventListener('input', () => {
+    if (nameInput.value.trim()) {
+      nameValidation.style.display = 'none';
+    }
+  });
 
   // Initialize screen
   init().catch(err => console.error(err));

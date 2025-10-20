@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug API Test</title>
+</head>
+<body>
+    <h1>API Debug Test</h1>
+    <button onclick="testConfig()">Test /api/config</button>
+    <button onclick="testStart()">Test /api/start</button>
+    <div id="output"></div>
+
+    <script>
+        const API_BASE = '';
+        
+        async function testConfig() {
+            try {
+                console.log('Testing /api/config...');
+                const response = await fetch(`${API_BASE}/api/config`);
+                const data = await response.json();
+                document.getElementById('output').innerHTML = 'Config: ' + JSON.stringify(data);
+                console.log('Config result:', data);
+            } catch (error) {
+                document.getElementById('output').innerHTML = 'Error: ' + error.message;
+                console.error('Config error:', error);
+            }
+        }
+        
+        async function testStart() {
+            try {
+                console.log('Testing /api/start...');
+                const response = await fetch(`${API_BASE}/api/start`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: 'Test User' })
+                });
+                const data = await response.json();
+                document.getElementById('output').innerHTML = 'Start: ' + JSON.stringify(data);
+                console.log('Start result:', data);
+            } catch (error) {
+                document.getElementById('output').innerHTML = 'Error: ' + error.message;
+                console.error('Start error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

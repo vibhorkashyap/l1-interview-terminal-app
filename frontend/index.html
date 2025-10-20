@@ -29,6 +29,7 @@
           <section id="screen-start" class="screen visible">
             <h1>Welcome</h1>
             <label>Enter your name</label>
+            <div id="nameValidation" class="validation-message" style="display: none;">Please enter your name to begin the test</div>
             <input id="nameInput" type="text" placeholder="Your name" />
             <button id="startBtn">Begin Test</button>
           </section>
@@ -36,9 +37,6 @@
           <section id="screen-quiz" class="screen">
             <div id="questionText" class="question"></div>
             <div id="choices" class="choices"></div>
-            <div class="actions">
-              <button id="nextBtn">Next</button>
-            </div>
           </section>
 
           <section id="screen-code" class="screen">

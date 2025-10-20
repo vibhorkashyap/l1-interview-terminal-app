@@ -737,10 +737,10 @@
   "coding": {
     "id": "code1",
     "language": "python",
-    "function_name": "group_keys_by_frequency",
+    "function_name": "foo",
     "title": "Group keys by frequency k",
     "prompt": "Given a dictionary where keys are alphabets and values are integers, and a value k, write a dynamic Python function that works for any such dictionary of arbitrary length 0 < n < 1000 and returns the expected output based on the value of k.\n\ninput_dict = {\"a\":8, \"b\":5, \"c\":8, \"d\":4, \"e\":7, \"f\":7, \"g\":1, \"h\":9, \"j\":3}\nk=2\n#output for k=3 []\n#output for k=2 [['a', 'c'], ['e', 'f']]\n#output for k=1 [['b'], ['d'], ['g'], ['h'], ['j']]",
-    "function_signature": "def group_keys_by_frequency(input_dict, k):\n    # Write your code here\n    pass\n",
+    "function_signature": "def foo(input_dict, k):\n    # Write your code here\n",
     "reference_tests": [
       {
         "input_dict": {"a":8, "b":5, "c":8, "d":4, "e":7, "f":7, "g":1, "h":9, "j":3},
