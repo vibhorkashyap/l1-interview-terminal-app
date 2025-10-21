@@ -8,9 +8,11 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 from uuid import uuid4
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+import logging
+import traceback
 from fastapi.staticfiles import StaticFiles
 
 from .models import (
@@ -30,6 +32,12 @@ DATA_PATH = PROJECT_ROOT / "data" / "questions.json"
 FRONTEND_DIR = PROJECT_ROOT / "frontend"
 
 app = FastAPI(title="L1 Interview Terminal App")
+
+# Configure module logger
+logger = logging.getLogger("l1_interview_app")
+if not logger.handlers:
+    # Let uvicorn/root logger handle handlers in most environments; set level here
+    logger.setLevel(logging.INFO)
 
 # Enable CORS for local dev (adjust as needed)
 app.add_middleware(
@@ -168,12 +176,20 @@ async def submit(payload: SubmitRequest) -> SubmitResponse:
         coding_cfg = ADMIN_CONFIG["coding"]
         tests = coding_cfg.get("reference_tests", [])
         fn_name = coding_cfg.get("function_name", "group_keys_by_frequency")
-        coding_result = evaluate_python(
-            source=payload.code,
-            function_name=fn_name,
-            tests=tests,
-            time_limit_s=2.0,
-        )
+        try:
+            coding_result = evaluate_python(
+                source=payload.code,
+                function_name=fn_name,
+                tests=tests,
+                time_limit_s=2.0,
+            )
+        except Exception as e:  # defensive: evaluator should already handle errors, but be safe
+            logger.exception("Evaluator raised unexpected exception")
+            coding_result = {
+                "passed": False,
+                "error": f"Evaluator error: {str(e)}",
+                "details": [],
+            }
         
         # Calculate coding points based on test cases passed
         if coding_result and "details" in coding_result:
@@ -264,3 +280,21 @@ async def download_results(session_id: str):
 
 # Serve static frontend - IMPORTANT: This must come AFTER API routes
 app.mount("/", StaticFiles(directory=str(FRONTEND_DIR), html=True), name="frontend")
+
+
+@app.exception_handler(Exception)
+async def generic_exception_handler(request: Request, exc: Exception):
+    """Catch-all exception handler that returns JSON for unexpected errors.
+
+    This prevents the frontend from receiving an HTML error page (which causes
+    JSON.parse failures) and ensures the error is logged with a traceback.
+    """
+    tb = traceback.format_exc()
+    # Log the full traceback for debugging
+    logger.error("Unhandled exception during request %s %s: %s", request.method, request.url, tb)
+
+    # Return a structured JSON response with a safe error message and the exception string
+    return JSONResponse(
+        status_code=500,
+        content={"error": "Internal Server Error", "detail": str(exc)}
+    )
