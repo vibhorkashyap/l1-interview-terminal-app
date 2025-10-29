@@ -7,13 +7,19 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 from uuid import uuid4
+from pydantic import BaseModel
+import sqlite3, json
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import logging
 import traceback
+
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+import os
+
 
 from .models import (
     StartRequest,
@@ -32,6 +38,9 @@ DATA_PATH = PROJECT_ROOT / "data" / "questions.json"
 FRONTEND_DIR = PROJECT_ROOT / "frontend"
 
 app = FastAPI(title="L1 Interview Terminal App")
+
+DB_PATH = "data/results.db"
+
 
 # Configure module logger
 logger = logging.getLogger("l1_interview_app")
@@ -74,6 +83,66 @@ def select_random_questions() -> List[Dict[str, Any]]:
     # Shuffle the final list to randomize order
     random.shuffle(selected_questions)
     return selected_questions
+
+# Ensure table exists
+def init_db():
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS results (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT,
+            responses TEXT,
+            score REAL,
+            submitted_at TEXT
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+init_db()
+
+class InterviewResult(BaseModel):
+    name: str
+    responses: dict
+    score: float
+
+@app.post("/api/submit_result")
+async def submit_result(result: InterviewResult):
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute(
+        "INSERT INTO results (name, responses, score, submitted_at) VALUES (?, ?, ?, ?)",
+        (result.name, json.dumps(result.responses), result.score, datetime.utcnow().isoformat())
+    )
+    conn.commit()
+    conn.close()
+    return {"status": "success"}
+
+@app.get("/api/admin/results")
+async def get_results():
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute("SELECT id, name, score, submitted_at FROM results ORDER BY id DESC")
+    data = c.fetchall()
+    conn.close()
+    return [{"id": r[0], "name": r[1], "score": r[2], "submitted_at": r[3]} for r in data]
+
+@app.get("/api/admin/result/{result_id}")
+async def get_result_detail(result_id: int):
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute("SELECT name, responses, score, submitted_at FROM results WHERE id=?", (result_id,))
+    row = c.fetchone()
+    conn.close()
+    if not row:
+        return JSONResponse(status_code=404, content={"error": "Result not found"})
+    return {
+        "name": row[0],
+        "responses": json.loads(row[1]),
+        "score": row[2],
+        "submitted_at": row[3]
+    }
 
 
 @app.get("/api/config", response_model=ConfigPublic)
@@ -280,7 +349,12 @@ async def download_results(session_id: str):
 
 # Serve static frontend - IMPORTANT: This must come AFTER API routes
 app.mount("/", StaticFiles(directory=str(FRONTEND_DIR), html=True), name="frontend")
+# Mount /admin route for admin panel
+admin_path = os.path.join(os.path.dirname(__file__), "../frontend/admin")
+if not os.path.exists(admin_path):
+    os.makedirs(admin_path)  # ensure folder exists even locally
 
+app.mount("/admin", StaticFiles(directory=admin_path, html=True), name="admin")
 
 @app.exception_handler(Exception)
 async def generic_exception_handler(request: Request, exc: Exception):

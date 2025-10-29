@@ -284,6 +284,14 @@
   });
 
   // nextBtn removed - auto-advance on answer selection
+  async function submitResults(name, responses, score) {
+    await fetch("/api/submit_result", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, responses, score })
+    });
+  }
+  
 
   async function doSubmit() {
     const answers = Object.entries(selectedAnswers).map(([qid, choice_index]) => ({ qid, choice_index }));

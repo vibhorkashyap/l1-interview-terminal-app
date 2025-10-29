@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Interview Results Admin</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { font-family: monospace; background: #000; color: #0f0; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    td, th { border: 1px solid #0f0; padding: 6px; text-align: left; }
+  </style>
+</head>
+<body>
+  <h2>Admin Results</h2>
+  <table id="resultsTable"></table>
+
+  <script>
+    async function loadResults() {
+      const res = await fetch("/api/admin/results");
+      const data = await res.json();
+      const table = document.getElementById("resultsTable");
+      table.innerHTML = "<tr><th>ID</th><th>Name</th><th>Score</th><th>Submitted</th></tr>" +
+        data.map(r => `<tr>
+            <td><a href="result.html?id=${r.id}">${r.id}</a></td>
+            <td>${r.name}</td>
+            <td>${r.score}</td>
+            <td>${r.submitted_at}</td>
+        </tr>`).join("");
+    }
+    loadResults();
+  </script>
+</body>
+</html>
