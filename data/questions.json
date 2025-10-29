@@ -18,12 +18,12 @@
         "id": "ml_2",
         "question": "In a fraud detection problem where only 0.1% of transactions are fraudulent, what is the best approach?",
         "choices": [
-          "Use SMOTE or weighted loss to handle class imbalance",
           "Ignore imbalance and use accuracy as the main metric",
+          "Use SMOTE or weighted loss to handle class imbalance",
           "Randomly remove normal transactions to balance data",
           "Train on only fraudulent transactions"
         ],
-        "answer_index": 0,
+        "answer_index": 1,
         "topic": "machine_learning"
       }
     ],
@@ -32,24 +32,24 @@
         "id": "cloud_1",
         "question": "Which setup helps deploy ML models on AWS with low latency and automatic scaling?",
         "choices": [
-          "Use SageMaker endpoints with autoscaling and API Gateway",
           "Host models on a single EC2 instance",
+          "Upload model files to S3 and access directly",
           "Run inference scripts manually on Lambda functions",
-          "Upload model files to S3 and access directly"
+          "Use SageMaker endpoints with autoscaling and API Gateway"
         ],
-        "answer_index": 0,
+        "answer_index": 3,
         "topic": "cloud_computing"
       },
       {
         "id": "cloud_2",
         "question": "How can you keep your ML pipeline portable across multiple clouds?",
         "choices": [
-          "Use Kubernetes and Kubeflow for cloud-neutral MLOps",
-          "Build the pipeline separately for each cloud",
           "Use one provider’s MLOps tool for all workloads",
+          "Build the pipeline separately for each cloud",
+          "Use Kubernetes and Kubeflow for cloud-neutral MLOps",
           "Run everything locally to avoid cloud dependency"
         ],
-        "answer_index": 0,
+        "answer_index": 2,
         "topic": "cloud_computing"
       }
     ],
@@ -58,24 +58,24 @@
         "id": "ai_1",
         "question": "What is a good way to make AI predictions explainable in medical diagnosis?",
         "choices": [
+          "Increase model complexity to improve accuracy",
           "Use SHAP or LIME to show which features affect predictions",
           "Hide model logic for confidentiality",
-          "Increase model complexity to improve accuracy",
           "Rely only on final prediction without interpretation"
         ],
-        "answer_index": 0,
+        "answer_index": 1,
         "topic": "artificial_intelligence"
       },
       {
         "id": "ai_2",
         "question": "Which approach helps train AI agents safely in self-driving simulations?",
         "choices": [
-          "Use safe reinforcement learning that respects constraints",
           "Train agents to explore freely without penalties",
-          "Randomly reset environments during training",
-          "Ignore rare crash scenarios for faster learning"
+          "Use safe reinforcement learning that respects constraints",
+          "Ignore rare crash scenarios for faster learning",
+          "Randomly reset environments during training"
         ],
-        "answer_index": 0,
+        "answer_index": 1,
         "topic": "artificial_intelligence"
       }
     ],
@@ -84,24 +84,24 @@
         "id": "da_1",
         "question": "How should you handle missing values and outliers before model training?",
         "choices": [
-          "Impute missing data and treat outliers with robust scaling",
           "Remove all rows with missing data",
+          "Ignore missing values and continue",
           "Replace missing values with zeros",
-          "Ignore missing values and continue"
+          "Impute missing data and treat outliers with robust scaling"
         ],
-        "answer_index": 0,
+        "answer_index": 3,
         "topic": "data_analysis"
       },
       {
         "id": "da_2",
         "question": "You have 1TB of raw data in a data lake. What is an efficient way to analyze it?",
         "choices": [
-          "Use Spark or DuckDB with Parquet files for querying",
-          "Load it all into Excel",
           "Convert it into CSV and open in pandas",
-          "Copy data into a text editor"
+          "Use Spark or DuckDB with Parquet files for querying",
+          "Copy data into a text editor",
+          "Load it all into Excel"
         ],
-        "answer_index": 0,
+        "answer_index": 1,
         "topic": "data_analysis"
       }
     ],
@@ -110,24 +110,24 @@
         "id": "nlp_1",
         "question": "How can you fine-tune a large language model on a small dataset without overfitting?",
         "choices": [
-          "Use adapter layers (LoRA) or partial fine-tuning",
           "Train all parameters from scratch",
-          "Use only unsupervised text pretraining",
-          "Increase learning rate to speed up training"
+          "Use adapter layers (LoRA) or partial fine-tuning",
+          "Increase learning rate to speed up training",
+          "Use only unsupervised text pretraining"
         ],
-        "answer_index": 0,
+        "answer_index": 1,
         "topic": "natural_language_processing"
       },
       {
         "id": "nlp_2",
         "question": "Which model handles multiple languages well for text classification?",
         "choices": [
-          "XLM-RoBERTa multilingual model",
-          "English-only BERT",
           "Naive Bayes on English text",
+          "English-only BERT",
+          "XLM-RoBERTa multilingual model",
           "TF-IDF with one language per file"
         ],
-        "answer_index": 0,
+        "answer_index": 2,
         "topic": "natural_language_processing"
       }
     ]
