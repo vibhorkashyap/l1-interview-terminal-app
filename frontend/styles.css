@@ -12,7 +12,7 @@
   --ubuntu-mono: "Ubuntu Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   
   /* VS Code Dark Theme Colors */
-  --vscode-bg: #1e1e1e;
+  --vscode-bg: #221f1f;
   --vscode-text: #d4d4d4;
   --vscode-comment: #6a9955;
   --vscode-keyword: #569cd6;
